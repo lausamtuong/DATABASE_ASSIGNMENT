@@ -1,0 +1,125 @@
+.notify {
+    position: fixed;
+    top: 20px;
+    right: -300px;
+    width: 300px;
+    transition: all .2s;
+    box-sizing: border-box;
+    z-index: 99999;
+    background: #fff;
+    border: 1px solid #d9d9d9;
+    box-shadow: 0 0 8px rgb(0 0 0 / 15%);
+    border-radius: 16px;
+    padding: 0 18px;
+    touch-action: pan-y;
+    max-height: 300px;
+}
+.marginBottom{
+    display: inline-flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    border-radius: 16px;
+    border: 2px solid #000;
+    background-color: #000;
+    color: #fff;
+    padding: 0 30px;
+    transition: all 0.2s;
+    cursor: pointer;
+    margin-bottom: 20px !important;
+}
+.is-active{
+    right:20px;
+}
+.notify__content{
+    margin-top: 20px;
+}
+.notify__message {
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: .03em;
+    color: #000;
+    margin-bottom: 0;
+}
+.notify-product {
+    display: flex;
+    padding-top: 15px;
+    border-top: 1px solid #d9d9d9;
+    margin-top: 15px;
+    padding-bottom: 5px;
+}
+.notify-product__thumbnail {
+    width: 25%;
+    overflow: hidden;
+    border-radius: 10px;
+    position: relative;
+}
+.notify-product__content {
+    display: flex;
+    flex-flow: column;
+    width: 75%;
+    padding-left: 10px;
+}
+.notify-product__thumbnail:before {
+    content: "";
+    display: block;
+    padding-top: 147.26507714%;
+    height: 0;
+    width: 100%;
+}
+.notify-product__option{
+    font-size: 16px;
+}
+.notify-product__thumbnail img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+
+.notify-product__prices {
+    display: flex;
+    flex-flow: row-reverse;
+    align-items: flex-end;
+    justify-content: flex-end;
+    gap:10px;
+    font-size: 16px;
+}
+.notify-product__title {
+    flex: 1;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 115%;
+    letter-spacing: .03em;
+    color: #000;
+}
+.notify .btn {
+    margin-top: 30px;
+    font-size: 16px;
+    width: 100%;
+}
+.btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    border-radius: 16px;
+    border: 2px solid #000;
+    background-color: #000;
+    color: #fff;
+    padding: 0 30px;
+    transition: all .2s;
+}
+.btn--outline {
+    background-color: transparent;
+    color: #000;
+}
+.btn:hover{
+    background: black;
+    color: #fff;
+}

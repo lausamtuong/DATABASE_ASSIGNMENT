@@ -1,0 +1,59 @@
+@use '../../scss/' as * ;
+
+.privacy {
+    padding: 0 10rem;
+    font-size: 18px;
+    line-height: 1.5;
+    position: fixed; 
+    z-index: 111;
+    overflow-y: scroll;
+        top: 0; right: 0; bottom: 0; left: 0; 
+        z-index: 99;
+    &__overlay {
+         background: rgba(0,0,0,0.3);
+         position: fixed; 
+        overflow-y: scroll;
+        top: 0; right: 0; bottom: 0; left: 0; 
+        z-index: 99;
+    }
+    &__title {
+        
+        display: flex;
+        justify-content: space-between;
+        font-size: 36px;
+        font-weight: bold;
+        color:$blue-txt;
+        padding:  0 4rem ;
+        padding-top: 6rem;
+        position: relative;
+        background: $white;
+        position: relative;
+        z-index: 111;
+        &::before {
+            content:'';
+            position: absolute;
+            bottom: 0;
+            left: 4rem;
+            width: 70px;
+            height: 3px;
+            background: $blue-txt;  
+        }
+    }
+    &__content {
+        padding: 2rem 4rem ;
+        background: $white;
+        position: relative;
+        z-index: 111;
+    }
+    .label {
+        padding: 1rem 0;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 20px;
+    }
+    .tutorial {
+        list-style-type: none;
+        font-weight: bold;
+    }
+    
+}

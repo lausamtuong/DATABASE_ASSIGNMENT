@@ -1,0 +1,39 @@
+@use '../../scss/abstracts/' as *;
+
+.topnav {
+    // @include flex(center, space-between);
+
+    @include tablet {
+        margin-bottom: $mobileSpacing;
+    }
+    position: fixed;
+   
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    left: 0;
+    top: 0;
+    align-items: center;
+    padding: 10px 20px;
+    background: white;
+    box-shadow: 0 2px 2px -2px rgba(0,0,0,.2);
+    z-index:1000;
+}
+
+.sidebar-toggle {
+    --size: 40px;
+    width: var(--size);
+    height: var(--size);
+    @include flex(center, center);
+    cursor: pointer;
+    display: none;
+
+    @include tablet {
+        display: flex;
+    }
+    
+    i {
+        font-size: 3rem;
+        color: $mainColor;
+    }
+}

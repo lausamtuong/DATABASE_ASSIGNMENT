@@ -1,0 +1,116 @@
+.History {
+  min-height: 100vh;
+  display: flex;
+  margin-top: 100px;
+  padding: 0 30px;
+  gap: 20px;
+  &-left {
+    flex: 1;
+    max-width: 300px;
+    &-header {
+      .top {
+        background: rgb(171, 186, 255);
+        display: flex;
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+      }
+      .bot {
+        background: rgb(171, 186, 255);
+        border-radius: 15px;
+        overflow: hidden;
+        .navigate {
+          padding: 20px;
+          display: flex;
+          font-size: 21px;
+          align-items: center;
+          
+          &:hover {
+            background: rgb(25, 28, 31);
+            color: white;
+            svg {
+              color: white;
+              text-shadow: 2px 2px 5px  white;
+              font-size: 30px;
+            }
+            cursor: pointer;
+            transition: all 0.5s;
+            
+          }
+          p {
+            text-shadow: 2px 2px 5px  white;
+            padding-left: 20px;
+            font-weight: 600;
+            font-size: 22px;
+          }
+        }
+      }
+      .image {
+        width: 60px;
+        height: 60px;
+        border-radius: 100rem;
+        overflow: hidden;
+        img {
+          width: 100%;
+          object-fit: cover;
+        }
+      }
+      .name {
+        p {
+          font-weight: 700;
+          font-size: 20px;
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+  &-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding-bottom: 40px;
+  }
+}
+
+@media (max-width: 900px) {
+  .navigate {
+    justify-content: center;
+    svg {
+      font-size: 40px;
+    }
+    p {
+      font-size: 20px;
+    }
+  }
+  .History {
+    flex-direction: column;
+    align-items: center;
+    &-left {
+      width: 80%;
+      max-width: 1000px;
+      &-header {
+        .image {
+          width: 90px;
+          height: 90px;
+        }
+        .top {
+          flex-direction: column;
+          align-items: center;
+          .name {
+            flex: 1;
+            p {
+              font-size: 40px;
+              text-align: center;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media (max-width: 650px) {
+  .name-item {
+    font-size: 20px;
+  }
+}

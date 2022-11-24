@@ -1,0 +1,18 @@
+@use './scss/' as * ;
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@200;400;500&family=Poppins:wght@500;700&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif !important ; 
+}
+
+.navigation_link--active {
+    color : $blue;
+    border-bottom: 4px solid $blue;
+}
+.mt-3 {
+    margin-top: 3rem;
+}

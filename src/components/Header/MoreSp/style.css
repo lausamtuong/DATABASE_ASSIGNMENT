@@ -1,0 +1,119 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.MoreSp_wrap {
+  width: 100%;
+  height: 400px;
+  background: white;
+  position: absolute;
+ 
+  left: 0;
+  bottom: -400px;
+  transform: translateY(-50%);
+  transition: transform 0.5s linear;
+  /* display: none; */
+  visibility: hidden;
+  opacity: 0;
+
+  box-shadow: 3px 3px 25px 5px gray;
+  cursor: default;
+}
+.MoreSp_wrap:hover {
+    transform: translateY(0%);
+  transition: transform 0.5s;    
+}
+.san_pham:hover .MoreSp_wrap {
+  visibility:visible;
+  opacity: 1;
+  
+}
+.MoreSp_wrap::before{
+    content:"";
+    position: absolute;
+    width: 100%;
+    height: 50px;
+    top:-50px;
+  }
+
+.Sp__title{
+    display:flex;
+    gap:20px;
+    color:gray;
+    padding-left:50px;
+    border-bottom: 2px solid rgb(224, 218, 218);
+}
+.Sp__title p{  
+    padding:10px 20px;
+    font-weight: bold;
+    font-size: 18px;
+}
+.Sp__title p:hover{
+    cursor: pointer;
+}
+.Sp__title-active{
+    border-bottom: 3px solid  rgb(77, 161, 240);
+    color: rgb(77, 161, 240);
+}
+.Sp__flex{
+    display:flex;
+    justify-content:center;
+    background: #f0f0f0;
+    gap:40px;
+}
+.Sp__info{
+    background: #f0f0f0;
+    min-height: 430px;
+}
+.Sp__img-discountprice{
+    text-decoration: line-through;
+    color: gray;
+    font-size: 14px;
+}
+.flex{
+    display:flex;
+    gap:20px;
+}
+.Sp__img-name,.Sp__img-price{ 
+    color:black;
+    padding:3px;
+    font-weight: 600;
+    font-size: 12px;
+}
+.Sp__img-price{
+    color:red;
+    font-size: 14px;
+}
+.Sp__img{
+    text-align: center;
+    width: 185px;
+    max-height: 350px;
+}
+.Sp__img:hover{
+    opacity:0.5 ;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+.link__button {
+    width: 100%;
+    text-align: center;
+    margin-top: 2rem;
+}
+.Sp__button {
+    
+    width: 300px;
+    text-align: center;
+    margin:40px auto;
+    color:white;
+    padding: 10px 50px;
+    background: black;
+    cursor: pointer;
+
+}
+.Sp__button:hover{
+    color:black;
+    background: #fff;
+    transition: all .5s;
+    border:1px solid rgb(29, 161, 242);
+}

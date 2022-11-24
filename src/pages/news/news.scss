@@ -1,0 +1,271 @@
+@use "../../scss/" as *;
+
+.news {
+  padding: 1rem 10rem;
+  @include tablet {
+    padding: 0;
+  }
+  padding-top: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  @include mobile {
+    padding-top: 80px;
+  }
+  .label {
+    width: 100%;
+    font-weight: bold;
+    font-size: 1rem;
+    align-items: center;
+    background: $blue;
+    width: fit-content;
+    padding: 10px;
+    border-radius: 12px;
+    color: $white;
+    text-transform: uppercase;
+    @include mobile {
+      font-size: 12px;
+      padding: 5px;
+    }
+  }
+  &__header {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    grid-gap: 24px;
+    @include tablet {
+      display: flex;
+      flex-direction: column;
+      padding: 0 12px;
+    }
+    @include mobile {
+      padding: 0;
+    }
+
+    .image img {
+      height: 400px;
+      @include mobile {
+        height: 200px;
+      }
+    }
+    .text {
+      padding: 2rem;
+      height: 400px;
+
+      @include mobile {
+        padding: 0 5px 1rem 5px;
+        height: 200px;
+      }
+      .title {
+        font-size: 1.5rem;
+        @include mobile {
+          font-size: 16px;
+        }
+      }
+    }
+
+    .related__news {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      .item {
+        height: 100px;
+        display: flex;
+      }
+    }
+  }
+  &__future {
+    .content {
+      margin-top: 20px;
+      .image img {
+        height: 300px;
+        @include mobile {
+          height: 200px;
+        }
+      }
+      .text {
+        height: 300px;
+        padding: 12px;
+        @include mobile {
+          padding: 0 5px 1rem 5px;
+          height: 200px;
+        }
+        .timestamp {
+          font-size: 12px;
+        }
+        .title {
+          font-size: 16px;
+          @include mobile {
+            font-size: 12px;
+            width: 60%;
+          }
+        }
+      }
+    }
+  }
+}
+.news__card {
+  position: relative;
+
+  .image {
+    position: absolute;
+    width: 100%;
+    img {
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+  .text {
+    position: relative;
+    color: $white;
+    background: rgba(0, 0, 0, 0.25);
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+}
+
+.related__card {
+  display: flex;
+  height: 100px;
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    width: 100%;
+    background: $black;
+    transform: translateY(6px);
+  }
+  .image {
+    min-width: 130px;
+    height: 100px;
+  }
+  .image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .text {
+    display: flex;
+    justify-content: center;
+    height: 100px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    .timestamp {
+      font-size: 12px;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: break-word;
+    }
+    .title {
+      font-size: 14px;
+      font-weight: bold;
+    }
+  }
+}
+.Content {
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+.card_content {
+  max-width: 300px;
+  width: 100%;
+  margin-left: 30px;
+  margin-bottom: 20px;
+  padding:10px;
+  border: 1px solid rgb(199, 198, 198);
+  border-radius: 3px;
+  .image {
+    width: 100%;  
+    img {
+      width: 100%;
+      object-fit: cover;
+      &:hover{
+            transform: scale(1.1);
+            transition:.5s;
+            cursor:pointer;
+      }
+    }
+  }
+  .title {
+    padding: 10px;
+    width: 100%;
+    height: 80px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    span {
+        height: 80px;
+        font-size: 14px;
+      word-wrap: break-word;
+    
+    
+    }
+  }
+}
+.show{
+    border: none;
+    border-radius:5px;
+    background: #1464f4;
+    padding:  10px;
+    width: 200px;
+    margin:0 auto;
+    cursor: pointer;
+    box-shadow: 6px 7px 33px -1px black;
+    &:hover{
+        color:white;
+        transition:.5s;
+        transform: scale(1.1);
+        
+    }
+}
+.button-edit{
+  display:flex;
+  justify-content:space-around;
+  span{
+    background-color: rgb(96, 69, 252);
+    padding:5px 20px;
+    border-radius: 5px;
+    color:#fff;
+    cursor:pointer;
+  }
+}
+.post-content{
+  display:flex;
+  justify-content:space-around;
+  margin:10px;
+}
+.input_post{
+width: 100%;
+}
+.craete-post{
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border:1px solid black;
+  
+}
+.btn-post{
+  background-color: rgb(96, 69, 252);
+  padding:5px 20px;
+  border-radius: 5px;
+  color:#fff;
+  cursor:pointer;
+  margin:10px;
+}

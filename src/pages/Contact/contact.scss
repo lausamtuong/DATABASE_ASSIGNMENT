@@ -1,0 +1,38 @@
+@use '../../scss/' as *;
+@import url('https://fonts.googleapis.com/css2?family=Rowdies:wght@700&display=swap');
+
+.contact {
+   padding: 2rem;
+   display: flex;
+   min-height:100vh;
+   flex-direction: column;
+      text-align: center;
+   @include mobile {
+      padding: 4rem 0;
+   }
+  
+   align-items: center; 
+   justify-content: center;
+   gap: 4rem;
+   background-image: linear-gradient(to right, #434343 0%, black 100%);
+   &__header {
+      font-size: 4rem;
+      font-weight: bold;
+      color: #fff;
+      font-family: 'Rowdies', cursive;
+      @include mobile {
+         font-size: 2.2rem;
+      }
+      @include tablet {
+         margin-bottom: 4rem;
+      }
+   }
+   &__content {
+      display:grid ;
+      width: 100%;
+      grid-gap: 12px;
+      text-align: center;
+      grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+      
+   }
+}

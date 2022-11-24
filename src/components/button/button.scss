@@ -1,0 +1,41 @@
+@use "../../scss/" as *;
+
+.btn {
+    outline: none;
+    border: 1px solid rgba(0,0,0,0);
+    font-size: 16px;
+    color: $white;
+    background: #1464f4;
+    width: 100%;
+    padding: 1rem 0;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    &__transparent {
+        background-color: rgba(0,0,0,0);
+        color: #1464f4;
+        border: 1px solid #1464f4;
+        &:hover {
+            cursor: pointer;
+            background: #1464f4;
+            color: $white;
+            transition: .3s ease;
+        }
+    }
+    &:hover {
+            cursor: pointer;
+            transition: .3s ease;
+        }
+}
+.small {
+    width: max-content;
+    padding: 1rem 4rem;
+    &:hover {
+        cursor: pointer;
+        background-color: rgba(0,0,0,0);
+        color: #1464f4;
+        border: 1px solid #1464f4;
+        transition: .3s ease;
+    }
+}
+
+

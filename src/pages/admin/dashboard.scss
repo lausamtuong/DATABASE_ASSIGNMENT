@@ -1,0 +1,62 @@
+@use '../../scss/abstracts/' as * ;
+.widgetTable {
+    position: relative;
+    width: 100%;
+    border-spacing: 20px;
+    th {
+        text-align: left;
+    }
+   
+    button {
+        padding: 5px 7px;
+        border: none;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;  
+        
+    }
+    .widgetButton.approved {
+        background: #e5faf2;
+        color: #3bb077;
+    } 
+    .widgetButton.declined {
+        background: #fff0f1;
+        color: #d95087;
+    }
+    .widgetButton.pending {
+        background: #ebf1fe;
+        color: #2a7ade;
+    }
+    .widgetUser {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        span {
+            font-weight: bold;
+            font-size: 24px;
+            @include mobile {
+                font-size: 16px;
+            }
+        }
+    }
+    .widgetDisplay {
+        cursor: pointer;
+        display: flex;
+        gap: 5px;
+    }
+    @include mobile {
+        display: none;
+    }
+}
+
+
+.viewOnPC {
+    display: none;
+    @include mobile {
+        display: block;
+        text-align: center;
+        color : #ccc;
+        font-size: 20px;
+    }
+}

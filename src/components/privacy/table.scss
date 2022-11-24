@@ -1,0 +1,25 @@
+@use '../../scss/' as * ;
+td {
+    border-top: 1px solid #ccc;
+    padding: 0.75rem;
+    vertical-align: top;
+}
+table tr td {
+    border: 1px solid #e7e1e1;
+    padding: 8px;
+    min-width: 50px;
+    background: #fff;
+}
+
+thead tr th {
+    text-align: left;
+    padding: 0.75rem;
+    background: $blue-txt;
+    color: $white;
+}
+tbody:first-child {
+    display: none;
+}
+
+table { border-collapse:collapse; }
+table thead th { border-bottom: 1px solid #e7e1e1; }
