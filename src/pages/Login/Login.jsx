@@ -36,13 +36,12 @@ const Login = () => {
     const data = {
       email: email,
       password: password,
-      cart:[],
     };
     loginUser(data, dispatch, navigate);
     
   };
   useEffect(() => {
-    const user =  JSON.parse(window.localStorage.getItem("user"));
+    const user =  JSON?.parse(window.localStorage.getItem("user"));
     if(user!=null)
     {
       loginUser(user, dispatch, navigate);
@@ -66,7 +65,7 @@ const Login = () => {
           <div className="Title">Đăng nhập</div>
           <TextField
             id="email"
-            label="Email"
+            label="Tên đăng nhập"
             variant="outlined"
             onChange={(e) => {
               setEmail(e.target.value);
@@ -131,7 +130,7 @@ const Login = () => {
                 target.classList.toggle("none");
               }}
             />
-            <div className="title">Email hoặc mật khẩu sai!</div>
+            <div className="title">Tên đăng nhập hoặc mật khẩu sai!</div>
           </div>
         </div>
       </div>

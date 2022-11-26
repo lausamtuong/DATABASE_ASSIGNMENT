@@ -3,13 +3,18 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "./payment.scss";
 import CardDetail from "../../components/CartDetail/CardDetail";
-import { getCart, getProductCart } from "../../reduxToolkit/apiRequest";
+import {
+  getAllPromotions,
+  getCart,
+  getProductCart,
+} from "../../reduxToolkit/apiRequest";
 
 const Payment = () => {
-  let data = [];
-  const user = useSelector((state) => state.auth.login?.currentUser);
+  let user = JSON?.parse(window.localStorage.getItem("user")); 
   const [cart, setCart] = useState([]);
-  const [paymentMethod, setPaymentMethod] = useState([]);
+  const [state,setState] = useState(false)
+  const [listPromotions, setListPromotions] = useState([]);
+  const [indexActive, setIndexActive] = useState(null);
   const [active, setActive] = useState([0, 0, 0, 0, 0, 0]);
   const [sender, setSender] = useState({
     name: "",
@@ -25,8 +30,13 @@ const Payment = () => {
   });
   useEffect(async () => {
     const cart_id = await getCart(user.customer_id);
-    const listCart = await getProductCart(cart_id[0][0].cart_id);
-    setCart(listCart[0]);
+    const listCart = await getProductCart(cart_id[0][0]?.cart_id);
+    const list = await getAllPromotions();
+    setListPromotions(list);
+    setCart(listCart);
+  }, [state]);
+  useEffect(async () => {
+   window.scrollTo(0,0)
   }, []);
   return (
     <>
@@ -254,7 +264,7 @@ const Payment = () => {
                     active[3] == 1 ? "active" : ""
                   } payment-method__item`}
                   onClick={() => {
-                    setActive((state) => [0, 0, 0, 1, 0, 0]);
+                    setActive(() => [0, 0, 0, 1, 0, 0]);
                     setSender((state) => {
                       return {
                         ...state,
@@ -403,13 +413,49 @@ const Payment = () => {
           <div className="cart-section">
             <h2 className="">Giỏ hàng</h2>
             {cart?.map((cartItem, index) => (
-              <CardDetail key={index} props={cartItem} />
+              <CardDetail key={index} props={cartItem} setState={setState}/>
             ))}
             <div data-v-e422017c="" class="discount-block">
               {" "}
               <div data-v-e422017c="" class="coupon-public">
-                <div data-v-e422017c="" class="coupons">
-                  <div data-v-e422017c="" class="coupon active">
+                <div data-v-e422017c="" class="coupons" >
+                  {listPromotions?.map(( promotion,index) => {
+                    return (
+                      <div
+                        data-v-e422017c=""
+                        key={index}
+                        className={`coupon ${index==indexActive?'active':''}`}
+                        onClick={()=>setIndexActive(index)}
+                      >
+                        <div data-v-e422017c="" class="coupon-left"></div>{" "}
+                        <div data-v-e422017c="" class="coupon-right">
+                          <div data-v-e422017c="" class="coupon-title">
+                        
+                            {promotion.promotion_name || "x"}
+                            <span data-v-e422017c="" class="coupon-count">
+                              <i data-v-e422017c="">(còn lại {promotion?.amount})</i>
+                            </span>
+                          </div>{" "}
+                          <div data-v-e422017c="" class="coupon-description">
+                            Giảm {promotion?.min_money || "xxx"} giá trị đơn
+                            hàng tối thiểu {"" || "xxx"} tối đa{" "}
+                            {promotion?.max_money || "XXX"} (không áp dụng cùng
+                            chương trình ưu đãi khác)
+                          </div>
+                          <div data-v-e422017c="" class="coupon-description">
+                            Điều kiện: {promotion?.condition || "xxxx"} <br />
+                            Quà tặng: {promotion?.gift_product || "xxx"} <br />
+                            Áp dụng từ: {promotion?._start_date.slice(0,10) ||
+                              "01-11-2022"}{" "}
+                            <br />
+                            Cho đến: {promotion?.end_date.slice(0,10) || "01-11-2022"}{" "}
+                            <br />
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                  {/* <div data-v-e422017c="" class="coupon ">
                     <div data-v-e422017c="" class="coupon-left"></div>{" "}
                     <div data-v-e422017c="" class="coupon-right">
                       <div data-v-e422017c="" class="coupon-title">
@@ -419,8 +465,15 @@ const Payment = () => {
                         </span>
                       </div>{" "}
                       <div data-v-e422017c="" class="coupon-description">
-                        Giảm 10% giá trị đơn hàng tối đa 100k (không áp dụng
-                        cùng chương trình ưu đãi khác)
+                        Giảm {"" || "xxx"} giá trị đơn hàng tối thiểu{" "}
+                        {"" || "xxx"} tối đa {"" || "XXX"} (không áp dụng cùng
+                        chương trình ưu đãi khác)
+                      </div>
+                      <div data-v-e422017c="" class="coupon-description">
+                        Điều kiện: {"" || "xxxx"} <br />
+                        Quà tặng: {"" || "xxx"} <br />
+                        Áp dụng từ: {"" || "01-11-2022"} <br />
+                        Cho đến: {"" || "01-11-2022"} <br />
                       </div>
                     </div>
                   </div>
@@ -451,6 +504,10 @@ const Payment = () => {
                         Giảm 50% tối đa 100k cho đơn hàng đầu tiên tại Coolmate
                         tính trên giá gốc
                       </div>
+                      <div data-v-e422017c="" class="coupon-description">
+                        Giảm 50% tối đa 100k cho đơn hàng đầu tiên tại Coolmate
+                        tính trên giá gốc
+                      </div>
                     </div>
                   </div>
                   <div data-v-e422017c="" class="coupon">
@@ -467,7 +524,7 @@ const Payment = () => {
                         phẩm outlet, ưu đãi đặc biệt)
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>{" "}
               <div data-v-e422017c="" class="discount-box">
@@ -485,7 +542,6 @@ const Payment = () => {
                 <button
                   data-v-e422017c=""
                   onClick={(e) => {
-                    
                     setVoucherCode((state) => {
                       return { ...state, status: true };
                     });
@@ -499,16 +555,21 @@ const Payment = () => {
                   <p data-v-e422017c="" class="discount-message text--green">
                     Mã giảm giá đã được áp dụng
                   </p>{" "}
-                  <div data-v-e422017c="" class="discount-actions"
+                  <div
+                    data-v-e422017c=""
+                    class="discount-actions"
                     onClick={() => {
                       setVoucherCode((state) => {
-                        return { value:'', status: false };
+                        return { value: "", status: false };
                       });
                     }}
                   >
                     {" "}
-                    <div data-v-e422017c="" class="remove-discount" >
-                      Xoá mã giảm giá <b data-v-e422017c="">{voucherCODE?.value||"COOLMATE"}</b>
+                    <div data-v-e422017c="" class="remove-discount">
+                      Xoá mã giảm giá{" "}
+                      <b data-v-e422017c="">
+                        {voucherCODE?.value || "COOLMATE"}
+                      </b>
                     </div>
                   </div>
                 </>

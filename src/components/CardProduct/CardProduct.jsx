@@ -7,26 +7,21 @@ import "./style.scss";
 const CardProduct = ({ item }) => {
 
   const navigate = useNavigate()
-  let user = useSelector(state => state?.auth?.login?.currentUser)
-  let data= []
-  
-  const dispatch = useDispatch()
+  let user = JSON?.parse(window.localStorage.getItem("user")); 
   const handleChoose = (e) => {  
     if(!user) alert("Khách hàng cần đăng nhập để mua sắm, Xin cảm ơn!") 
     else {
     document.querySelector(".notify").classList.add("is-active");
     document.querySelector(".notify-product__option").innerHTML =e.target.value;
-    document.querySelector(".notify-product__img").setAttribute("src",item.img2)
-    document.querySelector(".notify-product__title").innerHTML=item.name
-    document.querySelector(".notify-product__prices").querySelector("ins").innerHTML=item.price
+    document.querySelector(".notify-product__img").setAttribute("src",item.illustration)
+    document.querySelector(".notify-product__title").innerHTML=item.product_name
+    document.querySelector(".notify-product__prices").querySelector("ins").innerHTML=item.sell_price
     item={...item,size:e.target.value}
-    data = [...data,item]
-    user = {...user,cart:data}
     
-    addToCart(user,dispatch)
+    addToCart(user.customer_id,item)
     setTimeout(() => {
       document.querySelector(".notify").classList.remove("is-active");
-    }, 1000);        
+    }, 1500);        
   }
   };
   return (

@@ -14,7 +14,7 @@ const Register = () => {
   const dispatch = useDispatch()
   useEffect(() => window.scrollTo(0, 0), []);
   const [type, setType] = useState("password");
-  const [isCleck, setCleck] = useState(false);
+  const [isclek, setclek] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const navigate = useNavigate();
   const re_1digit = new RegExp("^(?=.*[0-9])");
@@ -39,12 +39,12 @@ const Register = () => {
     }),
     onSubmit: (values) => {
       const newUser = {
-        id_user:isCleck?'':uuidv4().toString().replaceAll("-",''),
+        id_user:isclek?'':"ACC"+uuidv4().toString().replaceAll("-",'').slice(0,5),
         name: values.name,
         password: values.password,
         username: values.username,
-        type: isCleck?"cleck":"user",
-        id_cleck:"",
+        type: isclek?"Tài khoản nhân viên":"Tài khoản khách hàng",
+        id_clek:"",
       };
      
       registerUser(newUser,dispatch,navigate)
@@ -113,7 +113,7 @@ const Register = () => {
           <div className="error_msg">{formik.errors.confirm}</div>
         ) : null}
           <div className="camket">
-          <input type="checkbox" onClick={()=>setCleck(!isCleck)}/>
+          <input type="checkbox" onClick={()=>setclek(!isclek)}/>
           <p>
             Bạn là nhân viên của cửa hàng, Hãy click vào đây!
           </p>
@@ -187,14 +187,9 @@ const Register = () => {
         </ul>
         <p className="dieuKhoan">
           Bằng việc bấm nút Đăng ký bên dưới, tôi xác nhận đã đọc, hiểu và đồng
-          ý với các <a href="#">Điều kiện và Điều khoản </a>của VietFast.
+          ý với các <a href="#">Điều kiện và Điều khoản </a>của COOLMATE.
         </p>
-        <div className="camket">
-          <input type="checkbox" />
-          <p>
-            Đăng ký nhận thông tin chương trình khuyến mãi, dịch vụ từ VietFast
-          </p>
-        </div>
+       
         <Button type="submit" variant="contained" disabled={disabled}>
           Đăng Kí
         </Button>
@@ -213,7 +208,7 @@ const Register = () => {
                 document.querySelector(".overlayz").classList.add("none");
               }}
             />
-            <div className="title">Email Đã có người sử dụng</div>
+            <div className="title">Tài khoản Đã có người sử dụng</div>
           </div>
         </div>
       </div>

@@ -40,9 +40,9 @@ const Dashboard = () => {
   const [trans, setTrans] = useState([]);
   useEffect(() => {
     window.scrollTo(0, 0);
-    getTransaction({ action: "fetchTrans" }).then((res) =>
-      setTrans([...res].reverse())
-    );
+    // getTransaction({ action: "fetchTrans" }).then((res) =>
+    //   setTrans([...res].reverse())
+    // );
   }, []);
   return (
     <DashboardWrapper>

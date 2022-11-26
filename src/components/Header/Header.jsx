@@ -52,7 +52,7 @@ const NavItems = [
   },
 ];
 const Header = () => {
-  const user = useSelector(state=>state.auth.login?.currentUser)
+  const user = JSON?.parse(window.localStorage.getItem("user"));
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [name, setName] = useState("Tài Khoản");
@@ -76,7 +76,11 @@ const Header = () => {
     <div className="container">
       <div className="header">
         <div className="header__logo" onClick={() => navigate("/")}>
-          <img className="logo-main" alt="Porto" src={"https://www.coolmate.me/images/logo-coolmate.svg"}></img>
+          <img
+            className="logo-main"
+            alt="Porto"
+            src={"https://www.coolmate.me/images/logo-coolmate.svg"}
+          ></img>
         </div>
         <div className="header__right ">
           <ul className="header__list">
@@ -86,9 +90,17 @@ const Header = () => {
                 {item?.more ? item.more : ""}
               </Link>
             ))}
-            <li className="language" style={{display:"flex",justifyContent:"center",alignItems:"center",gap:"5px"}}>
+            <li
+              className="language"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "5px",
+              }}
+            >
               {" "}
-              <AiOutlineGlobal /> 
+              <AiOutlineGlobal />
               <p>VN</p>
             </li>
           </ul>
@@ -99,11 +111,11 @@ const Header = () => {
                   <img alt="user-img" src={user.image ? user.image : avt} />
                 </div>
                 <div className="username">
-                  <p style={{color:"black"}}>{user?.username}</p>
+                  <p style={{ color: "black" }}>{user?.username}</p>
                 </div>
               </div>
               <div className="more__user">
-                {user.isAdmin=='true' ? (
+                {user.isAdmin == "true" ? (
                   <div
                     className="more__user-info"
                     onClick={() => navigate("admin")}

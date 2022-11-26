@@ -14,15 +14,13 @@ const Toatify = ({item}) => {
               <div class="notify-product__thumbnail">
                 <img
                 className="notify-product__img"
-                  src={item.img1}
-                  alt="
-Áo
-"
+                  src={item.illustration}
+                  alt="illustration"
                 />
               </div>
               <div class="notify-product__content">
                 <span class="notify-product__title">
-                  {item.name}
+                  {item.product_name}
                 </span>
                 <span class="notify-product__option"></span>
                 <span class="notify-product__prices">

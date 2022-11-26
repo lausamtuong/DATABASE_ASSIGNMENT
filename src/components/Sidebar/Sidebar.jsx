@@ -54,7 +54,11 @@ const Sidebar = () => {
               <div className="sidebar__menu__item__txt">{nav.text}</div>
             </Link>
           ))}
-          <div className="sidebar__menu__item" onClick={()=>{ logoutUser(dispatch, navigate)}}>
+          <div className="sidebar__menu__item"
+           onClick={()=>{ 
+            window.localStorage.clear();
+            logoutUser(dispatch, navigate)}}
+            >
             <div className="sidebar__menu__item__icon">
               <FcExport size={30}/>
             </div>

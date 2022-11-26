@@ -3,22 +3,17 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "./detail.scss";
 
-import {
-
-  getDetailProduct,
-} from "../../reduxToolkit/apiRequest";
+import { getDetailProduct } from "../../reduxToolkit/apiRequest";
 const Detail = () => {
   const params = useParams();
-  window.scrollTo(0,0)
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [detail,setDetail] = useState()
-  const [quantity,setQuantity] = useState(1)
-  useEffect(()=>{
-    getDetailProduct(params.id).then(res=>setDetail(res[0]));
-  },[])
-
-
+  const [choseSize, setChoseSize] = useState("");
+  const [detail, setDetail] = useState();
+  const [quantity, setQuantity] = useState(1);
+  useEffect(() => {
+    getDetailProduct(params.id).then((res) => setDetail(res[0]));
+    window.scrollTo(0, 0);
+  }, []);
+  console.log(detail);
   return (
     <>
       <div className="">
@@ -36,7 +31,7 @@ const Detail = () => {
                     href="https://www.coolmate.me/collection/ao-thun-nam"
                     className="breadcrumb__item"
                   >
-                  Chi tiết sản phẩm
+                    Chi tiết sản phẩm
                   </a>
                 </li>
               </ol>
@@ -83,136 +78,6 @@ const Detail = () => {
                               alt="Đen"
                             />
                           </a>
-                          <a
-                            href=""
-                            className="image slick-slide slick-current slick-active"
-                            rel-script="product-lightbox-gallery"
-                            data-image="https://media.coolmate.me/cdn-cgi/image/quality=100/uploads/April2022/thumb_sat_nach_den.jpg"
-                            data-index="0"
-                            data-slick-index="1"
-                            aria-hidden="false"
-                            style={{
-                              width: "721px",
-                              position: "relative",
-                              left: "-721px",
-                              top: " 0px",
-                              zIndex: " 998",
-                              opacity: "0",
-                            }}
-                            tabindex="-1"
-                            role="tabpanel"
-                            id="slick-slide41"
-                            aria-describedby="slick-slide-control41"
-                          >
-                            <img
-                              src="https://media.coolmate.me/cdn-cgi/image/quality=100/uploads/April2022/thumb_sat_nach_den.jpg"
-                              alt="Áo sát nách thể thao nam Dri-Breathe thoáng mát tối đa Đen"
-                            />
-                          </a>
-                          <a
-                            href=""
-                            className="image slick-slide"
-                            rel-script="product-lightbox-gallery"
-                            data-image="https://media.coolmate.me/cdn-cgi/image/quality=100/uploads/November2021/17-0_64-copy1.jpg"
-                            data-index="1"
-                            data-slick-index="2"
-                            aria-hidden="true"
-                            style={{
-                              width: " 721px",
-                              position: "relative",
-                              left: "-1442px",
-                              top: "0px",
-                              zIndex: "998",
-                              opacity: " 0",
-                            }}
-                            tabindex="-1"
-                            role="tabpanel"
-                            id="slick-slide42"
-                            aria-describedby="slick-slide-control42"
-                          >
-                            <img
-                              src="https://media.coolmate.me/cdn-cgi/image/quality=100/uploads/November2021/17-0_64-copy1.jpg"
-                              alt="Áo sát nách thể thao nam Dri-Breathe thoáng mát tối đa Đen 1"
-                            />
-                          </a>
-                          <a
-                            href="#"
-                            className="image slick-slide"
-                            rel-script="product-lightbox-gallery"
-                            data-image="https://media.coolmate.me/cdn-cgi/image/quality=100/uploads/April2022/thumb_sat_nauch_den2.jpg"
-                            data-index="2"
-                            data-slick-index="3"
-                            aria-hidden="true"
-                            style={{
-                              width: "721px",
-                              position: "relative",
-                              left: "-2163px",
-                              top: "0px",
-                              zIndex: "998",
-                              opacity: "0",
-                            }}
-                            tabindex="-1"
-                            role="tabpanel"
-                            id="slick-slide43"
-                            aria-describedby="slick-slide-control43"
-                          >
-                            <img
-                              src="https://media.coolmate.me/cdn-cgi/image/quality=100/uploads/April2022/thumb_sat_nach_den2.jpg"
-                              alt="Áo sát nách thể thao nam Dri-Breathe thoáng mát tối đa Đen 2"
-                            />
-                          </a>
-                          <a
-                            href="#"
-                            className="image slick-slide"
-                            rel-script="product-lightbox-gallery"
-                            data-image="https://media.coolmate.me/cdn-cgi/image/quality=100/uploads/April2022/thumb_sat_nach_den3.jpg"
-                            data-index="3"
-                            data-slick-index="4"
-                            aria-hidden="true"
-                            style={{
-                              width: "721px",
-                              position: "relative",
-                              left: "-2884px",
-                              top: "0px",
-                              zIndex: "998",
-                              opacity: "0",
-                            }}
-                            tabindex="-1"
-                            role="tabpanel"
-                            id="slick-slide44"
-                            aria-describedby="slick-slide-control44"
-                          >
-                            <img
-                              src="https://media.coolmate.me/cdn-cgi/image/quality=100/uploads/April2022/thumb_sat_nach_den3.jpg"
-                              alt="Áo sát nách thể thao nam Dri-Breathe thoáng mát tối đa Đen 3"
-                            />
-                          </a>
-                          <a
-                            href="#"
-                            className="image slick-slide"
-                            rel-script="product-lightbox-gallery"
-                            data-image="https://media.coolmate.me/cdn-cgi/image/quality=100/uploads/April2022/thumb_sat_nach_den4.jpg"
-                            data-index="4"
-                            data-slick-index="5"
-                            aria-hidden="true"
-                            style={{
-                              width: "721px",
-                              position: "relative",
-                              left: "-3605px",
-                              top: "0px",
-                              zIndex: "998",
-                              opacity: "0",
-                            }}
-                            tabindex="-1"
-                            role="tabpanel"
-                            id="slick-slide45"
-                            aria-describedby="slick-slide-control45"
-                          >
-                            <img
-                              src="https://media.coolmate.me/cdn-cgi/image/quality=100/uploads/April2022/thumb_sat_nach_den4.jpg"
-                              alt="Áo sát nách thể thao nam Dri-Breathe thoáng mát tối đa Đen 4"
-                            />
-                          </a>
                         </div>
                       </div>
                     </div>
@@ -227,7 +92,10 @@ const Detail = () => {
                   <h1 className="product-single__title">
                     {detail?.product_name}
                   </h1>
-                  <a href="" className="product-single__ratings scroll-to-step">
+                  <div
+                    href=""
+                    className="product-single__ratings scroll-to-step"
+                  >
                     <div
                       data-review-count="183"
                       data-review-avg="4.85"
@@ -243,7 +111,7 @@ const Detail = () => {
                         Đã bán (web): 13040{" "}
                       </div>
                     </div>
-                  </a>
+                  </div>
                   <div className="product-single__price-infomation">
                     <div className="product-single__price-infomation">
                       <div
@@ -355,74 +223,181 @@ const Detail = () => {
                                   className="text--bold"
                                 ></span>
                               </span>{" "}
-                              <a
+                              <div
                                 href="#size-guide"
                                 rel-script="toggle-size-guide"
                                 className="option-heading__sizeguide"
                               >
                                 Hướng dẫn chọn size
-                              </a>
+                              </div>
                             </div>{" "}
                             <div
                               data-option-id="tshirt_size"
                               data-option-index="2"
                               className="option-select option-select--tshirt_size"
                             >
-                              <label className="option-select__item s">
-                                <div className="option-select__inner">
-                                  <input
-                                    type="radio"
-                                    name="tshirt_size"
-                                    value="s"
-                                    data-title="S"
-                                  />{" "}
-                                  <span className="checkmark">S</span>
-                                </div>
-                              </label>{" "}
-                              <label className="option-select__item m">
-                                <div className="option-select__inner">
-                                  <input
-                                    type="radio"
-                                    name="tshirt_size"
-                                    value="m"
-                                    data-title="M"
-                                  />{" "}
-                                  <span className="checkmark">M</span>
-                                </div>
-                              </label>{" "}
-                              <label className="option-select__item l">
-                                <div className="option-select__inner">
-                                  <input
-                                    type="radio"
-                                    name="tshirt_size"
-                                    value="l"
-                                    data-title="L"
-                                  />{" "}
-                                  <span className="checkmark">L</span>
-                                </div>
-                              </label>{" "}
-                              <label className="option-select__item xl">
-                                <div className="option-select__inner">
-                                  <input
-                                    type="radio"
-                                    name="tshirt_size"
-                                    value="xl"
-                                    data-title="XL"
-                                  />{" "}
-                                  <span className="checkmark">XL</span>
-                                </div>
-                              </label>{" "}
-                              <label className="option-select__item 2xl">
-                                <div className="option-select__inner">
-                                  <input
-                                    type="radio"
-                                    name="tshirt_size"
-                                    value="2xl"
-                                    data-title="2XL"
-                                  />{" "}
-                                  <span className="checkmark">2XL</span>
-                                </div>
-                              </label>
+                              {detail?.category_id == "CAT0002   " ? (
+                                <>
+                                  <label className="option-select__item s">
+                                    <div className="option-select__inner">
+                                      <input
+                                        type="radio"
+                                        name="tshirt_size"
+                                        value="s"
+                                        data-title="S"
+                                      />
+                                      <span className="checkmark">38</span>
+                                    </div>
+                                  </label>
+                                  <label className="option-select__item m">
+                                    <div className="option-select__inner">
+                                      <input
+                                        type="radio"
+                                        name="tshirt_size"
+                                        value="m"
+                                        data-title="M"
+                                      />{" "}
+                                      <span className="checkmark">39</span>
+                                    </div>
+                                  </label>
+                                  <label className="option-select__item l">
+                                    <div className="option-select__inner">
+                                      <input
+                                        type="radio"
+                                        name="tshirt_size"
+                                        value="l"
+                                        data-title="L"
+                                      />
+                                      <span className="checkmark">40</span>
+                                    </div>
+                                  </label>
+                                  <label className="option-select__item xl">
+                                    <div className="option-select__inner">
+                                      <input
+                                        type="radio"
+                                        name="tshirt_size"
+                                        value="xl"
+                                        data-title="XL"
+                                      />
+                                      <span className="checkmark">41</span>
+                                    </div>
+                                  </label>
+                                  <label className="option-select__item 2xl">
+                                    <div className="option-select__inner">
+                                      <input
+                                        type="radio"
+                                        name="tshirt_size"
+                                        value="2xl"
+                                        data-title="2XL"
+                                      />
+                                      <span className="checkmark">42</span>
+                                    </div>
+                                  </label>
+                                  <label className="option-select__item 2xl">
+                                    <div className="option-select__inner">
+                                      <input
+                                        type="radio"
+                                        name="tshirt_size"
+                                        value="2xl"
+                                        data-title="2XL"
+                                      />
+                                      <span className="checkmark">43</span>
+                                    </div>
+                                  </label>
+                                  <label className="option-select__item 2xl">
+                                    <div className="option-select__inner">
+                                      <input
+                                        type="radio"
+                                        name="tshirt_size"
+                                        value="2xl"
+                                        data-title="2XL"
+                                      />
+                                      <span className="checkmark">44</span>
+                                    </div>
+                                  </label>
+                                  <label className="option-select__item 2xl">
+                                    <div className="option-select__inner">
+                                      <input
+                                        type="radio"
+                                        name="tshirt_size"
+                                        value="2xl"
+                                        data-title="2XL"
+                                      />
+                                      <span className="checkmark">45</span>
+                                    </div>
+                                  </label>
+                                </>
+                              ) : (
+                                <>
+                                  <label className="option-select__item s">
+                                    <div className="option-select__inner">
+                                      <input
+                                        type="radio"
+                                        name="tshirt_size"
+                                        value="s"
+                                        data-title="S"
+                                      />
+                                      <span className="checkmark">S</span>
+                                    </div>
+                                  </label>
+                                  <label className="option-select__item m">
+                                    <div className="option-select__inner">
+                                      <input
+                                        type="radio"
+                                        name="tshirt_size"
+                                        value="m"
+                                        data-title="M"
+                                      />{" "}
+                                      <span className="checkmark">M</span>
+                                    </div>
+                                  </label>
+                                  <label className="option-select__item l">
+                                    <div className="option-select__inner">
+                                      <input
+                                        type="radio"
+                                        name="tshirt_size"
+                                        value="l"
+                                        data-title="L"
+                                      />
+                                      <span className="checkmark">L</span>
+                                    </div>
+                                  </label>
+                                  <label className="option-select__item xl">
+                                    <div className="option-select__inner">
+                                      <input
+                                        type="radio"
+                                        name="tshirt_size"
+                                        value="xl"
+                                        data-title="XL"
+                                      />
+                                      <span className="checkmark">XL</span>
+                                    </div>
+                                  </label>
+                                  <label className="option-select__item 2xl">
+                                    <div className="option-select__inner">
+                                      <input
+                                        type="radio"
+                                        name="tshirt_size"
+                                        value="2xl"
+                                        data-title="2XL"
+                                      />
+                                      <span className="checkmark">2XL</span>
+                                    </div>
+                                  </label>
+                                  <label className="option-select__item 2xl">
+                                    <div className="option-select__inner">
+                                      <input
+                                        type="radio"
+                                        name="tshirt_size"
+                                        value="2xl"
+                                        data-title="2XL"
+                                      />
+                                      <span className="checkmark">3XL</span>
+                                    </div>
+                                  </label>
+                                 
+                                </>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -430,18 +405,27 @@ const Detail = () => {
                       <div className="product-single__actions">
                         <div className="product-single__actions">
                           <div className="product-single__quantity">
-                            <div rel-script="quantity-change" className="quantity">
-                              <div  className="quantity__reduce cursor" onClick={()=>setQuantity(prev=>prev-1)}>
+                            <div
+                              rel-script="quantity-change"
+                              className="quantity"
+                            >
+                              <div
+                                className="quantity__reduce cursor"
+                                onClick={() => setQuantity((prev) => prev - 1)}
+                              >
                                 -
                               </div>{" "}
-                             <p className="quan">{quantity}</p>
-                              <div className="quantity__augure cursor"onClick={()=>setQuantity(prev=>prev+1)}>
+                              <p className="quan">{quantity}</p>
+                              <div
+                                className="quantity__augure cursor"
+                                onClick={() => setQuantity((prev) => prev + 1)}
+                              >
                                 +
                               </div>
                             </div>
                           </div>{" "}
                           <div className="product-single__button">
-                            <a
+                            <div
                               href="#"
                               data-product-id="60b89df4c61b1f470f7d0f66"
                               data-variant-id=""
@@ -449,8 +433,8 @@ const Detail = () => {
                               rel-script="product-add-to-cart"
                               className="btn"
                             >
-                              Chọn kích thước áo{" "}
-                            </a>
+                              Thêm vào giỏ hàng{" "}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -546,7 +530,7 @@ const Detail = () => {
                       <div
                         id="features-listing"
                         className="product-features__listing"
-                        style={{display: "block"}}
+                        style={{ display: "block" }}
                       >
                         <div className="product-features__item">
                           Chất liệu 100% Recycle Polyester
@@ -589,9 +573,7 @@ const Detail = () => {
           </div>
         </section>
 
-        <section className="product-single__description">
-          .container
-        </section>
+        <section className="product-single__description">.container</section>
       </div>
     </>
   );
