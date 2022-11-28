@@ -12,7 +12,6 @@ import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import {
   logoutUser,
-  setAvt,
   updateUser,
   updateUserPassword,
 } from "../../reduxToolkit/apiRequest";
@@ -99,7 +98,7 @@ const Info = () => {
     console.log(base64);
     setAnhdaidien(base64);
     // file.action = "setAvt";
-    setAvt(image, dispatch);
+  
   };
   const convertBase64 = (file) => {
     return new Promise((res, rej) => {

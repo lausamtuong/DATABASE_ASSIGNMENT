@@ -122,8 +122,7 @@ const Login = () => {
         </form>
       </div>
       <div className="overlayz none">
-        <div className="box">
-          
+        <div className="box">     
           <div className="flex">
             <AiOutlineCloseCircle 
               onClick={(e) => {

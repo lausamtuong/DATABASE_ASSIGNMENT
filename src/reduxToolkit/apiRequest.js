@@ -92,6 +92,32 @@ export const filterProduct = async (data) => {
     });
   return list;
 };
+export const getTotalMoneyOrder = async (order_id) => {
+  const total_money = await axios
+    .post("http://localhost:8090/getTotalMoneyOrder", {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+        "Content-Type": "text/plain",
+      },
+      order_id
+    }
+    )
+    .then((res) => {
+      return res.data;
+    });
+    
+  return total_money;
+};
+export const deleteOrderProduct = async (order_id,cart) => {
+  const total_money = await axios
+    .post("http://localhost:8090/deleteOrderProduct", {order_id,cart})
+    .then((res) => {
+      return res.data;
+    });
+    
+  return total_money;
+};
 export const getCart = async (customer_id) => {
   const list = await axios
     .post("http://localhost:8090/getCart", {
@@ -200,6 +226,33 @@ export const addToCart = async (customer_id,item) => {
    console.log(error)
   }
 };
+export const updateCartProduct = async (product_id,cart_id,amount) => {
+  try {
+    axios.post("http://localhost:8090/updateCartProduct", {product_id,cart_id,amount}).then((res) => {
+     console.log(res.data)
+    });
+  } catch (error) {
+   console.log(error)
+  }
+};
+export const insertOrder = async (customer_id) => {
+  try {
+    const order_id = await axios.post("http://localhost:8090/insertOrder", {customer_id}).then((res) => {
+    return res.data
+    });
+    return order_id;
+  } catch (error) {
+   console.log(error)
+  }
+};
+export const insertProductOrder = async (order_id,cart) => {
+  try {
+    console.log(123)
+    axios.post("http://localhost:8090/insertProductOrder", {order_id,cart})
+  } catch (error) {
+   console.log(error)
+  }
+};
 export const registerUser = async (user, dispatch, navigate) => {
   dispatch(registerStart());
   try {
@@ -232,44 +285,7 @@ export const updateUser = async (data, dispatch) => {
   //   dispatch(logout());
   // });
 };
-export const senCommentToDB = async (data, dispatch) => {
-  try {
-    // console.log(data);
-    // axios.post("http://localhost:8080/WEB/Vietfast/BE/index.php", data).then((res) => {
-    //   dispatch(commentSuccess());
-    // });
-  } catch (error) {
-    dispatch(commentError());
-  }
-};
-export const deleteCommentToDB = async (data, dispatch) => {
-  // axios.post("http://localhost:8080/WEB/Vietfast/BE/index.php", data).then((res) => {
-  // });
-};
 
-export const getComment = async (data) => {
-  // const list = axios
-  //   .post("http://localhost:8080/WEB/Vietfast/BE/index.php", data)
-  //   .then((res) => {
-  //     return res.data;
-  //   });
-  // return list;
-};
-export const getTransaction = async (data) => {
-  // const list = axios
-  //   .post("http://localhost:8080/WEB/Vietfast/BE/index.php", data)
-  //   .then((res) => {
-  //     console.log(res);
-  //     return res.data;
-  //   });
-  // return list;
-};
-export const setAvt = async (data, dispatch) => {
-  // axios.post("http://localhost:8080/WEB/Vietfast/BE/index.php", data).then((res) => {
-  //   // alert("Cập nhật ảnh đại diện thành công! Yêu cầu đăng nhập lại.");
-  //    dispatch(logout());
-  // });
-};
 export const payment = async (data) => {
   // console.log(data);
   // axios.post("http://localhost:8080/WEB/Vietfast/BE/index.php", data).then((res) => {

@@ -32,7 +32,7 @@ ChartJS.register(
   Legend
 );
 import "./dashboard.scss";
-import { getTransaction } from "../../reduxToolkit/apiRequest";
+
 
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { Avatar } from "@nextui-org/react";
@@ -40,9 +40,6 @@ const Dashboard = () => {
   const [trans, setTrans] = useState([]);
   useEffect(() => {
     window.scrollTo(0, 0);
-    // getTransaction({ action: "fetchTrans" }).then((res) =>
-    //   setTrans([...res].reverse())
-    // );
   }, []);
   return (
     <DashboardWrapper>

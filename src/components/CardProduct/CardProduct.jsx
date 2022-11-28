@@ -12,12 +12,12 @@ const CardProduct = ({ item }) => {
     if(!user) alert("Khách hàng cần đăng nhập để mua sắm, Xin cảm ơn!") 
     else {
     document.querySelector(".notify").classList.add("is-active");
-    document.querySelector(".notify-product__option").innerHTML =e.target.value;
+    document.querySelector(".notify-product__option").innerHTML ="Size "+e.target.value;
     document.querySelector(".notify-product__img").setAttribute("src",item.illustration)
     document.querySelector(".notify-product__title").innerHTML=item.product_name
-    document.querySelector(".notify-product__prices").querySelector("ins").innerHTML=item.sell_price
+    document.querySelector(".notify-product__prices").querySelector("ins").innerHTML=item.sell_price.toLocaleString()+" vnđ"
     item={...item,size:e.target.value}
-    
+    window.localStorage.removeItem("confirm")
     addToCart(user.customer_id,item)
     setTimeout(() => {
       document.querySelector(".notify").classList.remove("is-active");
@@ -53,51 +53,128 @@ const CardProduct = ({ item }) => {
                   data-is-color=""
                   class="option-select"
                 >
-                  <label class="option-select__item">
+                {item.category_id=="CAT0002   "?(
+                  <><label class="option-select__item">
+                  <input
+                    type="radio"
+                    name="tshirt_size"
+                    value="M"
+                    onClick={(e) => handleChoose(e)}
+                  />
+                  <span class="checkmark">38</span>
+                </label>
+                <label class="option-select__item">
+                  <input
+                    type="radio"
+                    name="tshirt_size"
+                    value="L"
+                    onClick={(e) => handleChoose(e)}
+                  />
+                  <span class="checkmark">39</span>
+                </label>
+                <label class="option-select__item">
+                  <input
+                    type="radio"
+                    name="tshirt_size"
+                    value="XL"
+                    onClick={(e) => handleChoose(e)}
+                  />
+                  <span class="checkmark">40</span>
+                </label>
+                <label class="option-select__item">
+                  <input
+                    type="radio"
+                    name="tshirt_size"
+                    value="2XL"
+                    onClick={(e) => handleChoose(e)}
+                  />
+                  <span class="checkmark">41</span>
+                </label>
+                <label class="option-select__item">
+                  <input
+                    type="radio"
+                    name="tshirt_size"
+                    value="3XL"
+                    onClick={(e) => handleChoose(e)}
+                  />
+                  <span class="checkmark">42</span>
+                </label>
+                <label class="option-select__item">
+                  <input
+                    type="radio"
+                    name="tshirt_size"
+                    value="3XL"
+                    onClick={(e) => handleChoose(e)}
+                  />
+                  <span class="checkmark">43</span>
+                </label>
+                <label class="option-select__item">
+                  <input
+                    type="radio"
+                    name="tshirt_size"
+                    value="3XL"
+                    onClick={(e) => handleChoose(e)}
+                  />
+                  <span class="checkmark">44</span>
+                </label>
+                <label class="option-select__item">
+                  <input
+                    type="radio"
+                    name="tshirt_size"
+                    value="3XL"
+                    onClick={(e) => handleChoose(e)}
+                  />
+                  <span class="checkmark">45</span>
+                </label>
+                </>
+                ):(<>
+                <label class="option-select__item">
                     <input
                       type="radio"
                       name="tshirt_size"
                       value="M"
                       onClick={(e) => handleChoose(e)}
-                    />{" "}
+                    />
                     <span class="checkmark">M</span>
-                  </label>{" "}
+                  </label>
                   <label class="option-select__item">
                     <input
                       type="radio"
                       name="tshirt_size"
                       value="L"
                       onClick={(e) => handleChoose(e)}
-                    />{" "}
+                    />
                     <span class="checkmark">L</span>
-                  </label>{" "}
+                  </label>
                   <label class="option-select__item">
                     <input
                       type="radio"
                       name="tshirt_size"
                       value="XL"
                       onClick={(e) => handleChoose(e)}
-                    />{" "}
+                    />
                     <span class="checkmark">XL</span>
-                  </label>{" "}
+                  </label>
                   <label class="option-select__item">
                     <input
                       type="radio"
                       name="tshirt_size"
                       value="2XL"
                       onClick={(e) => handleChoose(e)}
-                    />{" "}
+                    />
                     <span class="checkmark">2XL</span>
-                  </label>{" "}
+                  </label>
                   <label class="option-select__item">
                     <input
                       type="radio"
                       name="tshirt_size"
                       value="3XL"
                       onClick={(e) => handleChoose(e)}
-                    />{" "}
+                    />
                     <span class="checkmark">3XL</span>
                   </label>
+                </>)}
+                  
                 </div>
               </form>
             </div>

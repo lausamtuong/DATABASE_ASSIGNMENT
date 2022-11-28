@@ -1,21 +1,34 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import "./payment.scss";
+import { css } from "@emotion/react";
+import DotLoader from "react-spinners/DotLoader";
 import CardDetail from "../../components/CartDetail/CardDetail";
 import {
+  deleteOrderProduct,
   getAllPromotions,
   getCart,
   getProductCart,
+  getTotalMoneyOrder,
+  insertOrder,
+  insertProductOrder,
 } from "../../reduxToolkit/apiRequest";
-
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: #ffffff;
+`;
 const Payment = () => {
-  let user = JSON?.parse(window.localStorage.getItem("user")); 
+  let user = JSON?.parse(window.localStorage.getItem("user"));
+  let order_id = JSON?.parse(window.localStorage.getItem("order_id"));
+  let confirm = JSON?.parse(window.localStorage.getItem("confirm"));
   const [cart, setCart] = useState([]);
-  const [state,setState] = useState(false)
+  const [state, setState] = useState(false);
   const [listPromotions, setListPromotions] = useState([]);
   const [indexActive, setIndexActive] = useState(null);
   const [active, setActive] = useState([0, 0, 0, 0, 0, 0]);
+  const [confirmOrder, setConfirmOrder] = useState(confirm);
+  let [loading, setLoading] = useState(false);
+  const [totalOrder, setTotalOrder] = useState("");
   const [sender, setSender] = useState({
     name: "",
     phoneNumber: "",
@@ -24,10 +37,6 @@ const Payment = () => {
     note: "",
     paymentMethod: "",
   });
-  const [voucherCODE, setVoucherCode] = useState({
-    value: "",
-    status: false,
-  });
   useEffect(async () => {
     const cart_id = await getCart(user.customer_id);
     const listCart = await getProductCart(cart_id[0][0]?.cart_id);
@@ -35,11 +44,46 @@ const Payment = () => {
     setListPromotions(list);
     setCart(listCart);
   }, [state]);
+  const handleConfirm = async () => {
+    setConfirmOrder(true);
+    if (!order_id) {
+      order_id = await insertOrder(user.customer_id);
+      window.localStorage.setItem("order_id", JSON.stringify(order_id));
+    }
+      setLoading(true);
+      setTimeout(() => {
+      setLoading(false);
+      alert("Đặt đơn thành công!");
+      }, 5000);
+     const x = await insertProductOrder(order_id, cart);  
+    let current = 0 ;
+    let timerId = setInterval(async function() {
+      if (current ==10) {
+      clearInterval(timerId);}
+      const temp = await getTotalMoneyOrder(order_id);
+      setTotalOrder(temp);
+      
+      current++;
+  }, 500); 
+    window.localStorage.setItem("confirm", "true");
+  };
   useEffect(async () => {
-   window.scrollTo(0,0)
+    window.scrollTo(0, 0)  
+     const temp = await getTotalMoneyOrder(order_id)
+       setTotalOrder(temp)
   }, []);
   return (
     <>
+    {loading && (
+        <div style={{height:"100%"}} className="overlay__loading">
+          <DotLoader
+            color={"#ffffff"}
+            loading={loading}
+            css={override}
+            size={150}
+          />
+        </div>
+      )}
       <div className="wrapper">
         <div className="info">
           <div className="">
@@ -402,227 +446,191 @@ const Payment = () => {
               </a>
               .
             </p>
-            <div class="cart-section">
-              <button class="checkout-btn" onClick={console.log(sender)}>
-                Thanh toán <span>7.873k</span> <span>(MoMo)</span>
-              </button>
-            </div>
+            {!confirmOrder ? (
+              ""
+            ) : (
+              <div class="cart-section">
+                <button class="checkout-btn" onClick={console.log(sender)}>
+                  Thanh toán <span>7.873k</span> <span>(MoMo)</span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
         <div className="grid__column five-twelfths mobile--one-whole">
           <div className="cart-section">
             <h2 className="">Giỏ hàng</h2>
-            {cart?.map((cartItem, index) => (
-              <CardDetail key={index} props={cartItem} setState={setState}/>
-            ))}
-            <div data-v-e422017c="" class="discount-block">
-              {" "}
-              <div data-v-e422017c="" class="coupon-public">
-                <div data-v-e422017c="" class="coupons" >
-                  {listPromotions?.map(( promotion,index) => {
-                    return (
-                      <div
-                        data-v-e422017c=""
-                        key={index}
-                        className={`coupon ${index==indexActive?'active':''}`}
-                        onClick={()=>setIndexActive(index)}
-                      >
-                        <div data-v-e422017c="" class="coupon-left"></div>{" "}
-                        <div data-v-e422017c="" class="coupon-right">
-                          <div data-v-e422017c="" class="coupon-title">
-                        
-                            {promotion.promotion_name || "x"}
-                            <span data-v-e422017c="" class="coupon-count">
-                              <i data-v-e422017c="">(còn lại {promotion?.amount})</i>
-                            </span>
-                          </div>{" "}
-                          <div data-v-e422017c="" class="coupon-description">
-                            Giảm {promotion?.min_money || "xxx"} giá trị đơn
-                            hàng tối thiểu {"" || "xxx"} tối đa{" "}
-                            {promotion?.max_money || "XXX"} (không áp dụng cùng
-                            chương trình ưu đãi khác)
-                          </div>
-                          <div data-v-e422017c="" class="coupon-description">
-                            Điều kiện: {promotion?.condition || "xxxx"} <br />
-                            Quà tặng: {promotion?.gift_product || "xxx"} <br />
-                            Áp dụng từ: {promotion?._start_date.slice(0,10) ||
-                              "01-11-2022"}{" "}
-                            <br />
-                            Cho đến: {promotion?.end_date.slice(0,10) || "01-11-2022"}{" "}
-                            <br />
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                  {/* <div data-v-e422017c="" class="coupon ">
-                    <div data-v-e422017c="" class="coupon-left"></div>{" "}
-                    <div data-v-e422017c="" class="coupon-right">
-                      <div data-v-e422017c="" class="coupon-title">
-                        CMVOUT10
-                        <span data-v-e422017c="" class="coupon-count">
-                          <i data-v-e422017c="">(Còn 20)</i>
-                        </span>
-                      </div>{" "}
-                      <div data-v-e422017c="" class="coupon-description">
-                        Giảm {"" || "xxx"} giá trị đơn hàng tối thiểu{" "}
-                        {"" || "xxx"} tối đa {"" || "XXX"} (không áp dụng cùng
-                        chương trình ưu đãi khác)
-                      </div>
-                      <div data-v-e422017c="" class="coupon-description">
-                        Điều kiện: {"" || "xxxx"} <br />
-                        Quà tặng: {"" || "xxx"} <br />
-                        Áp dụng từ: {"" || "01-11-2022"} <br />
-                        Cho đến: {"" || "01-11-2022"} <br />
-                      </div>
-                    </div>
-                  </div>
-                  <div data-v-e422017c="" class="coupon">
-                    <div data-v-e422017c="" class="coupon-left"></div>{" "}
-                    <div data-v-e422017c="" class="coupon-right">
-                      <div data-v-e422017c="" class="coupon-title">
-                        ACTIVE
-                        <span data-v-e422017c="" class="coupon-count">
-                          <i data-v-e422017c="">(Còn 34)</i>
-                        </span>
-                      </div>{" "}
-                      <div data-v-e422017c="" class="coupon-description">
-                        Giảm 50k cho đơn gồm các sản phẩm thể thao từ 300k{" "}
-                      </div>
-                    </div>
-                  </div>
-                  <div data-v-e422017c="" class="coupon">
-                    <div data-v-e422017c="" class="coupon-left"></div>{" "}
-                    <div data-v-e422017c="" class="coupon-right">
-                      <div data-v-e422017c="" class="coupon-title">
-                        CHAOBAN
-                        <span data-v-e422017c="" class="coupon-count">
-                          <i data-v-e422017c="">(Còn 2578)</i>
-                        </span>
-                      </div>{" "}
-                      <div data-v-e422017c="" class="coupon-description">
-                        Giảm 50% tối đa 100k cho đơn hàng đầu tiên tại Coolmate
-                        tính trên giá gốc
-                      </div>
-                      <div data-v-e422017c="" class="coupon-description">
-                        Giảm 50% tối đa 100k cho đơn hàng đầu tiên tại Coolmate
-                        tính trên giá gốc
-                      </div>
-                    </div>
-                  </div>
-                  <div data-v-e422017c="" class="coupon">
-                    <div data-v-e422017c="" class="coupon-left"></div>{" "}
-                    <div data-v-e422017c="" class="coupon-right">
-                      <div data-v-e422017c="" class="coupon-title">
-                        UNDERWEAR
-                        <span data-v-e422017c="" class="coupon-count">
-                          <i data-v-e422017c="">(Còn 90)</i>
-                        </span>
-                      </div>{" "}
-                      <div data-v-e422017c="" class="coupon-description">
-                        <span>Giảm 30k</span> cho combo quần lót nam (trừ sản
-                        phẩm outlet, ưu đãi đặc biệt)
-                      </div>
-                    </div>
-                  </div> */}
-                </div>
-              </div>{" "}
-              <div data-v-e422017c="" class="discount-box">
-                <input
-                  data-v-e422017c=""
-                  type="text"
-                  value={voucherCODE.value}
-                  onChange={(e) => {
-                    setVoucherCode((state) => {
-                      return { ...state, value: e.target.value };
-                    });
-                  }}
-                  placeholder="Mã giảm giá"
-                />{" "}
+            <div>
+              {cart?.map((cartItem, index) => (
+                <CardDetail key={index} props={cartItem} setState={setState} />
+              ))}
+            </div>
+            {!confirmOrder ? (
+              <>
+                <p class="cart-return-text">
+                  Bạn cần tiến hành đặt đơn thành công để thanh toán sản phẩm.
+                  Tìm hiểu thêm{" "}
+                  <a href="/page/chinh-sach-doi-tra" target="_blank">
+                    <b>tại đây</b>
+                  </a>
+                  .
+                </p>
                 <button
-                  data-v-e422017c=""
-                  onClick={(e) => {
-                    setVoucherCode((state) => {
-                      return { ...state, status: true };
-                    });
-                  }}
+                  className="btn"
+                  style={{ margin: "20px 20px", padding: "10px 0px" }}
+                  onClick={handleConfirm}
                 >
-                  Áp dụng
+                  Xác nhận đặt đơn
                 </button>
-              </div>
-              {voucherCODE.status && (
-                <>
-                  <p data-v-e422017c="" class="discount-message text--green">
-                    Mã giảm giá đã được áp dụng
-                  </p>{" "}
+              </>
+            ) : (
+              <>
+                <div data-v-e422017c="" class="discount-block">
+                  {" "}
+                  <div data-v-e422017c="" class="coupon-public">
+                    <div data-v-e422017c="" class="coupons">
+                      {listPromotions?.map((promotion, index) => {
+                        return (
+                          <div
+                            data-v-e422017c=""
+                            key={index}
+                            className={`coupon ${
+                              index == indexActive ? "active" : ""
+                            }`}
+                            onClick={() => setIndexActive(index)}
+                          >
+                            <div data-v-e422017c="" class="coupon-left"></div>{" "}
+                            <div data-v-e422017c="" class="coupon-right">
+                              <div data-v-e422017c="" class="coupon-title">
+                                {promotion.promotion_name || "x"}
+                                <span data-v-e422017c="" class="coupon-count">
+                                  <i data-v-e422017c="">
+                                    (còn lại {promotion?.amount})
+                                  </i>
+                                </span>
+                              </div>{" "}
+                              <div
+                                data-v-e422017c=""
+                                class="coupon-description"
+                              >
+                                Giảm {promotion?.min_money || "xxx"} giá trị đơn
+                                hàng tối thiểu {"" || "xxx"} tối đa{" "}
+                                {promotion?.max_money || "XXX"} (không áp dụng
+                                cùng chương trình ưu đãi khác)
+                              </div>
+                              <div
+                                data-v-e422017c=""
+                                class="coupon-description"
+                              >
+                                Điều kiện: {promotion?.condition || "xxxx"}{" "}
+                                <br />
+                                Quà tặng: {promotion?.gift_product ||
+                                  "xxx"}{" "}
+                                <br />
+                                Áp dụng từ:{" "}
+                                {promotion?._start_date.slice(0, 10) ||
+                                  "01-11-2022"}{" "}
+                                <br />
+                                Cho đến:{" "}
+                                {promotion?.end_date.slice(0, 10) ||
+                                  "01-11-2022"}{" "}
+                                <br />
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>{" "}
+                </div>
+                <div data-v-5598cbab="" class="divider"></div>
+                <div data-v-e58f269a="" class="pricing-info">
+                  <div data-v-e58f269a="" class="pricing-info__item">
+                    <p
+                      data-v-e58f269a=""
+                      onClick= {async() => {
+                          const temp = await getTotalMoneyOrder(order_id);
+                          setTotalOrder(temp);
+                       
+                      }}
+                    >
+                      Tạm tính
+                    </p>{" "}
+                    <p data-v-e58f269a="" class="pricing-info__sub">
+                      <span data-v-e58f269a="">
+                        {totalOrder.toLocaleString()} vnđ
+                      </span>{" "}
+                      <span
+                        data-v-e58f269a=""
+                        class="pricing-info__saving"
+                      ></span>
+                    </p>
+                  </div>{" "}
+                  <div data-v-e58f269a="" class="pricing-info__item">
+                    <p data-v-e58f269a="">Giảm giá</p>{" "}
+                    <p data-v-e58f269a="" class="">
+                      <span data-v-e58f269a="">-94.700đ</span>{" "}
+                    </p>
+                  </div>{" "}
+                  <div data-v-e58f269a="" class="pricing-info__item">
+                    <p data-v-e58f269a="">Phí giao hàng</p>{" "}
+                    <p data-v-e58f269a="" class="">
+                      <span data-v-e58f269a="">Miễn phí</span>
+                    </p>
+                  </div>{" "}
                   <div
-                    data-v-e422017c=""
-                    class="discount-actions"
+                    data-v-5598cbab=""
+                    data-v-e58f269a=""
+                    class="divider"
+                  ></div>{" "}
+                  <div
+                    data-v-e58f269a=""
+                    class="pricing-info__item pricing-info__total"
+                  >
+                    <p data-v-e58f269a="">Tổng</p>{" "}
+                    <p data-v-e58f269a="" class="">
+                      <span data-v-e58f269a="">852.300đ</span>{" "}
+                      <span
+                        data-v-e58f269a=""
+                        style={{
+                          color: "red",
+                          display: "block",
+                          fontSize: "12px",
+                        }}
+                      >
+                        (Đã giảm 28% trên giá gốc)
+                      </span>
+                    </p>
+                  </div>
+                  <button
+                    className="btn"
+                    style={{
+                      margin: "20px 20px",
+                      padding: "10px 0px",
+                      marginBottom: "20px !important",
+                    }}
                     onClick={() => {
-                      setVoucherCode((state) => {
-                        return { value: "", status: false };
-                      });
+                      setConfirmOrder((prev) => !prev);
+                      deleteOrderProduct(order_id, cart);
                     }}
                   >
-                    {" "}
-                    <div data-v-e422017c="" class="remove-discount">
-                      Xoá mã giảm giá{" "}
-                      <b data-v-e422017c="">
-                        {voucherCODE?.value || "COOLMATE"}
-                      </b>
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
-            <div data-v-5598cbab="" class="divider"></div>
-            <div data-v-e58f269a="" class="pricing-info">
-              <div data-v-e58f269a="" class="pricing-info__item">
-                <p data-v-e58f269a="">Tạm tính</p>{" "}
-                <p data-v-e58f269a="" class="pricing-info__sub">
-                  <span data-v-e58f269a="">947.000đ</span>{" "}
-                  <span data-v-e58f269a="" class="pricing-info__saving">
-                    <i data-v-e58f269a="">
-                      (tiết kiệm{" "}
-                      <span data-v-e58f269a="" class="text--primary">
-                        250k)
-                      </span>
-                    </i>
-                  </span>
-                </p>
-              </div>{" "}
-              <div data-v-e58f269a="" class="pricing-info__item">
-                <p data-v-e58f269a="">Giảm giá</p>{" "}
-                <p data-v-e58f269a="" class="">
-                  <span data-v-e58f269a="">-94.700đ</span>{" "}
-                </p>
-              </div>{" "}
-              <div data-v-e58f269a="" class="pricing-info__item">
-                <p data-v-e58f269a="">Phí giao hàng</p>{" "}
-                <p data-v-e58f269a="" class="">
-                  <span data-v-e58f269a="">Miễn phí</span>
-                </p>
-              </div>{" "}
-              <div data-v-5598cbab="" data-v-e58f269a="" class="divider"></div>{" "}
-              <div
-                data-v-e58f269a=""
-                class="pricing-info__item pricing-info__total"
-              >
-                <p data-v-e58f269a="">Tổng</p>{" "}
-                <p data-v-e58f269a="" class="">
-                  <span data-v-e58f269a="">852.300đ</span>{" "}
-                  <span
-                    data-v-e58f269a=""
-                    style={{ color: "red", display: "block", fontSize: "12px" }}
-                  >
-                    (Đã giảm 28% trên giá gốc)
-                  </span>
-                </p>
-              </div>
-            </div>
+                    Hủy đơn hàng
+                  </button>
+                  <div
+                    className=""
+                    style={{
+                      margin: "20px 20px",
+                      padding: "10px 0px",
+                      height: "20px",
+                    }}
+                  ></div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
+      
     </>
   );
 };
