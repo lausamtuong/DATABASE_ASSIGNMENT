@@ -4,6 +4,7 @@ import { addToCart, deleteCartProduct ,updateCartProduct} from "../../reduxToolk
 const CardDetail = ({ props, setState }) => {
   const [soLuong, setSoLuong] = useState(props.amount);
    let order_id = JSON?.parse(window.localStorage.getItem("order_id"))
+   order_id=order_id?.order_id
   const [size, setSize] = useState("S");
   return (
     <div className="" data-v-42acd70a>
@@ -98,6 +99,7 @@ const CardDetail = ({ props, setState }) => {
                         setSoLuong((prev) => prev - 1);
                         setState((prev) => !prev);
                         updateCartProduct(
+                          order_id,
                           props.product_id,
                           props.cart_id,
                           soLuong-1
@@ -134,6 +136,7 @@ const CardDetail = ({ props, setState }) => {
                         setSoLuong((prev) => prev + 1);
                         setState((prev) => !prev);
                         updateCartProduct(
+                          order_id,
                           props.product_id,
                           props.cart_id,
                           soLuong+1

@@ -11,6 +11,7 @@ import {
   getTotalMoneyOrder,
   insertOrder,
   insertProductOrder,
+  payment,
 } from "../../reduxToolkit/apiRequest";
 const override = css`
   display: block;
@@ -19,7 +20,7 @@ const override = css`
 `;
 const Payment = () => {
   let user = JSON?.parse(window.localStorage.getItem("user"));
-  let order_id = JSON?.parse(window.localStorage.getItem("order_id"));
+   let order_id = JSON?.parse(window.localStorage.getItem("order_id"));
   let confirm = JSON?.parse(window.localStorage.getItem("confirm"));
   const [cart, setCart] = useState([]);
   const [state, setState] = useState(false);
@@ -27,6 +28,7 @@ const Payment = () => {
   const [indexActive, setIndexActive] = useState(null);
   const [active, setActive] = useState([0, 0, 0, 0, 0, 0]);
   const [confirmOrder, setConfirmOrder] = useState(confirm);
+  const [giamGia, setGiamGia] = useState(0);
   let [loading, setLoading] = useState(false);
   const [totalOrder, setTotalOrder] = useState("");
   const [sender, setSender] = useState({
@@ -34,11 +36,16 @@ const Payment = () => {
     phoneNumber: "",
     address: "",
     email: "",
-    note: "",
-    paymentMethod: "",
+    customer_id:"",
+    order_id:"",
+    payment_note: "",
+    payment_method: "",
+    promotion_id:"",
+    total_money:""
   });
+
   useEffect(async () => {
-    const cart_id = await getCart(user.customer_id);
+    const cart_id = await getCart(user?.customer_id);
     const listCart = await getProductCart(cart_id[0][0]?.cart_id);
     const list = await getAllPromotions();
     setListPromotions(list);
@@ -47,35 +54,49 @@ const Payment = () => {
   const handleConfirm = async () => {
     setConfirmOrder(true);
     if (!order_id) {
-      order_id = await insertOrder(user.customer_id);
+      order_id = await insertOrder(user?.customer_id);
       window.localStorage.setItem("order_id", JSON.stringify(order_id));
     }
-      setLoading(true);
-      setTimeout(() => {
+    setLoading(true);
+    setTimeout(() => {
       setLoading(false);
       alert("Đặt đơn thành công!");
-      }, 5000);
-     const x = await insertProductOrder(order_id, cart);  
-    let current = 0 ;
-    let timerId = setInterval(async function() {
-      if (current ==10) {
-      clearInterval(timerId);}
+    }, 5000);
+    setSender((state) => {
+      return { 
+        ...state,
+         order_id:order_id.order_id,
+         customer_id:user.customer_id
+       };
+    });
+    console.log(sender)
+    const x = await insertProductOrder(order_id, cart);
+    let current = 0;
+    let timerId = setInterval(async function () {
+      if (current == 10) {
+        clearInterval(timerId);
+      }
       const temp = await getTotalMoneyOrder(order_id);
       setTotalOrder(temp);
-      
+      setSender((state) => {
+        return { 
+          ...state,
+           total_money:totalOrder-giamGia,
+         };
+      });
       current++;
-  }, 500); 
+    }, 500);
     window.localStorage.setItem("confirm", "true");
   };
   useEffect(async () => {
-    window.scrollTo(0, 0)  
-     const temp = await getTotalMoneyOrder(order_id)
-       setTotalOrder(temp)
+    window.scrollTo(0, 0);
+    const temp = await getTotalMoneyOrder(order_id);
+    setTotalOrder(temp);
   }, []);
   return (
     <>
-    {loading && (
-        <div style={{height:"100%"}} className="overlay__loading">
+      {loading && (
+        <div style={{ height: "70%" }} className="overlay__loading">
           <DotLoader
             color={"#ffffff"}
             loading={loading}
@@ -149,7 +170,7 @@ const Payment = () => {
                     placeholder="Ghi chú thêm (ví dụ: Giao giờ hành chính)"
                     onBlur={(e) => {
                       setSender((state) => {
-                        return { ...state, note: e.target.value };
+                        return { ...state, payment_note: e.target.value };
                       });
                     }}
                   />
@@ -172,7 +193,7 @@ const Payment = () => {
                     setSender((state) => {
                       return {
                         ...state,
-                        paymentMethod: "COD",
+                        payment_method: "COD",
                       };
                     });
                   }}
@@ -222,7 +243,7 @@ const Payment = () => {
                     setSender((state) => {
                       return {
                         ...state,
-                        paymentMethod: "MOMO",
+                        payment_method: "MOMO",
                       };
                     });
                   }}
@@ -267,7 +288,7 @@ const Payment = () => {
                     setSender((state) => {
                       return {
                         ...state,
-                        paymentMethod: "ZALOPAY",
+                        payment_method: "ZALOPAY",
                       };
                     });
                   }}
@@ -312,7 +333,7 @@ const Payment = () => {
                     setSender((state) => {
                       return {
                         ...state,
-                        paymentMethod: "SHOPEEPAY",
+                        payment_method: "SHOPEEPAY",
                       };
                     });
                   }}
@@ -374,7 +395,7 @@ const Payment = () => {
                         setSender((state) => {
                           return {
                             ...state,
-                            paymentMethod: "9PAY",
+                            payment_method: "9PAY",
                           };
                         });
                       }}
@@ -449,9 +470,11 @@ const Payment = () => {
             {!confirmOrder ? (
               ""
             ) : (
-              <div class="cart-section">
-                <button class="checkout-btn" onClick={console.log(sender)}>
-                  Thanh toán <span>7.873k</span> <span>(MoMo)</span>
+              <div class="cart-section"  onClick={()=>{
+                window.localStorage.removeItem("order_id","confirm")
+                payment(sender)}}>
+                <button class="checkout-btn">
+                  Thanh toán 
                 </button>
               </div>
             )}
@@ -480,7 +503,7 @@ const Payment = () => {
                   style={{ margin: "20px 20px", padding: "10px 0px" }}
                   onClick={handleConfirm}
                 >
-                  Xác nhận đặt đơn
+                  Xác nhận
                 </button>
               </>
             ) : (
@@ -497,7 +520,19 @@ const Payment = () => {
                             className={`coupon ${
                               index == indexActive ? "active" : ""
                             }`}
-                            onClick={() => setIndexActive(index)}
+                            onClick={() => {
+                              
+                              setGiamGia(
+                                (promotion.promotion_percent * totalOrder) / 100
+                              );
+                              setIndexActive(index);
+                              setSender((state) => {
+                                return { 
+                                  ...state,
+                                  promotion_id:promotion.promotion_id
+                                 };
+                              });
+                            }}
                           >
                             <div data-v-e422017c="" class="coupon-left"></div>{" "}
                             <div data-v-e422017c="" class="coupon-right">
@@ -513,10 +548,27 @@ const Payment = () => {
                                 data-v-e422017c=""
                                 class="coupon-description"
                               >
-                                Giảm {promotion?.min_money || "xxx"} giá trị đơn
-                                hàng tối thiểu {"" || "xxx"} tối đa{" "}
-                                {promotion?.max_money || "XXX"} (không áp dụng
-                                cùng chương trình ưu đãi khác)
+                                Giảm{" "}
+                                <b
+                                  style={{ color: "black", fontWeight: "bold" }}
+                                >
+                                  {" "}
+                                  {promotion?.promotion_percent || "xxx"}%{" "}
+                                </b>
+                                giá trị đơn hàng tối thiểu{" "}
+                                <b
+                                  style={{ color: "black", fontWeight: "bold" }}
+                                >
+                                  {promotion?.min_money || "xxx"}
+                                </b>{" "}
+                                tối đa{" "}
+                                <b
+                                  style={{ color: "black", fontWeight: "bold" }}
+                                >
+                                  {" "}
+                                  {promotion?.max_money || "XXX"}{" "}
+                                </b>
+                                (không áp dụng cùng chương trình ưu đãi khác)
                               </div>
                               <div
                                 data-v-e422017c=""
@@ -548,17 +600,16 @@ const Payment = () => {
                   <div data-v-e58f269a="" class="pricing-info__item">
                     <p
                       data-v-e58f269a=""
-                      onClick= {async() => {
-                          const temp = await getTotalMoneyOrder(order_id);
-                          setTotalOrder(temp);
-                       
+                      onClick={async () => {
+                        const temp = await getTotalMoneyOrder(order_id);
+                        setTotalOrder(temp);
                       }}
                     >
                       Tạm tính
                     </p>{" "}
                     <p data-v-e58f269a="" class="pricing-info__sub">
                       <span data-v-e58f269a="">
-                        {totalOrder.toLocaleString()} vnđ
+                        {totalOrder?.toLocaleString()} vnđ
                       </span>{" "}
                       <span
                         data-v-e58f269a=""
@@ -569,7 +620,9 @@ const Payment = () => {
                   <div data-v-e58f269a="" class="pricing-info__item">
                     <p data-v-e58f269a="">Giảm giá</p>{" "}
                     <p data-v-e58f269a="" class="">
-                      <span data-v-e58f269a="">-94.700đ</span>{" "}
+                      <span data-v-e58f269a="">
+                        {giamGia.toLocaleString()} vnđ
+                      </span>{" "}
                     </p>
                   </div>{" "}
                   <div data-v-e58f269a="" class="pricing-info__item">
@@ -589,7 +642,7 @@ const Payment = () => {
                   >
                     <p data-v-e58f269a="">Tổng</p>{" "}
                     <p data-v-e58f269a="" class="">
-                      <span data-v-e58f269a="">852.300đ</span>{" "}
+                      <span data-v-e58f269a="">{(totalOrder-giamGia).toLocaleString()} vnđ</span>{" "}
                       <span
                         data-v-e58f269a=""
                         style={{
@@ -598,7 +651,7 @@ const Payment = () => {
                           fontSize: "12px",
                         }}
                       >
-                        (Đã giảm 28% trên giá gốc)
+                        (Đã giảm {giamGia/totalOrder*100}% trên giá gốc)
                       </span>
                     </p>
                   </div>
@@ -614,7 +667,7 @@ const Payment = () => {
                       deleteOrderProduct(order_id, cart);
                     }}
                   >
-                    Hủy đơn hàng
+                    Hủy
                   </button>
                   <div
                     className=""
@@ -630,7 +683,6 @@ const Payment = () => {
           </div>
         </div>
       </div>
-      
     </>
   );
 };
