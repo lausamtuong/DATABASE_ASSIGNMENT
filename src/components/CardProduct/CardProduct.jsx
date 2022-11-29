@@ -197,7 +197,7 @@ const CardProduct = ({ item }) => {
                 data-sale="-1"
                 className="product-prices"
               >
-               <button className='btn buttonHover' onClick={()=>navigate(`./detail/${item.product_id}`)}>Xem chi tiết</button>
+               <button className='btn buttonHover block' onClick={()=>navigate(`./detail/${item.product_id}`)}>Xem chi tiết</button>
                 <ins>{item.sell_price.toLocaleString()}đ</ins>
               </div>
             </div>

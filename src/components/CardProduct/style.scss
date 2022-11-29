@@ -220,6 +220,26 @@ ins {
 
 @media only screen and (max-width: 1440px) {
   .grid__column {
-    width: 22% !important;
+    width: 22% ;
   }
 }
+@media only screen and (max-width: 390px)   and (min-width: 120px) {
+  .grid__column {
+    width: 60%  ;
+  }
+  .block{
+   display:none !important
+  }
+}
+@media only screen and (max-width: 660px) and (min-width:390px) {
+  .grid__column {
+    width: 40% ;
+  }
+  
+}
+@media only screen and (max-width: 990px) and (min-width: 660px){
+  .grid__column {
+    width: 30% ;
+  }
+}
+

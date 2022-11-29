@@ -473,7 +473,7 @@ const Payment = () => {
               <div class="cart-section"  onClick={()=>{
                 window.localStorage.removeItem("order_id","confirm")
                 payment(sender)}}>
-                <button class="checkout-btn">
+                <button class="checkout-btn mb">
                   Thanh toán 
                 </button>
               </div>
@@ -499,12 +499,13 @@ const Payment = () => {
                   .
                 </p>
                 <button
-                  className="btn"
+                  className="btn mb"
                   style={{ margin: "20px 20px", padding: "10px 0px" }}
                   onClick={handleConfirm}
                 >
                   Xác nhận
                 </button>
+                <div style={{height:"20px"}}></div>
               </>
             ) : (
               <>
@@ -656,7 +657,7 @@ const Payment = () => {
                     </p>
                   </div>
                   <button
-                    className="btn"
+                    className="btn mb"
                     style={{
                       margin: "20px 20px",
                       padding: "10px 0px",

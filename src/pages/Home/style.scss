@@ -344,7 +344,7 @@ img {
 }
 .coolclub-abouts{background: #fff;}
 .coolclub-abouts__heading{
-  font-size: 96px;
+  
   text-align: center;
 }
 .coolclub-abouts__content{
@@ -373,7 +373,6 @@ a{
 
 }
 .homepage-collections {
-  height: 430px;
   padding-top: 30px;
   margin-bottom: 30px;
   background: #fff;
@@ -394,6 +393,7 @@ a{
 .gridd {
   display: flex;
   display: -webkit-flex;
+  justify-content: center;
   -moz-flex-direction: row;
   flex-direction: row;
   flex-wrap: wrap;
@@ -404,7 +404,23 @@ a{
   float: none;
 }
 .three-twelfths {
-  width: 25%;
+  width: 22vw;
+}
+@media only screen and (max-width: 390px)   and (min-width: 120px) {
+  .three-twelfths {
+    width: 50vw;
+  }
+}
+@media only screen and (max-width: 660px) and (min-width:390px) {
+  
+  .three-twelfths {
+    width: 50vw;
+  }
+}
+@media only screen and (max-width: 990px) and (min-width: 660px){
+  .three-twelfths {
+    width: 30vw;
+  }
 }
 .gridd__column {
   position: relative;

@@ -15,6 +15,35 @@
     padding-bottom: 20px;
     border-right: 1px rgb(204, 203, 203) solid;
 }
+@media only screen and (max-width: 390px)   and (min-width: 120px) {
+    .info {
+        width: 108%;
+      
+    }
+    .wrapper{
+        flex-wrap: wrap;
+    }
+    .title{
+        font-size: 17px;
+    }
+  }
+  @media only screen and (max-width: 660px) and (min-width:390px) {
+    .info {
+        width: 110%;
+      
+    }
+    .wrapper{
+        flex-wrap: wrap;
+    }
+  }
+  @media only screen and (max-width: 990px) and (min-width: 660px){
+    .grid__column {
+      width: 30% ;
+    }
+  }
+  .mb{
+    margin-bottom: 20px;
+  }
 .info_input {
     
   &-name{

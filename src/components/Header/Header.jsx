@@ -167,7 +167,7 @@ const Header = () => {
             </button>
           )}
         </div>
-        <div className="icon">
+        <div className="icon" >
           <AiOutlineMenu
             onClick={() => {
               document.querySelector(".nav__tablet")?.classList.toggle("trans");
@@ -186,7 +186,7 @@ const Header = () => {
           >
             <FaTimes />
           </div>
-          <div className="nav__tablet-title">VietFast</div>
+          <div className="nav__tablet-title">COOLMATE</div>
           <Sidebar />
         </div>
       </div>

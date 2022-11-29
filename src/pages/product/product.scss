@@ -285,3 +285,16 @@
     margin-right: 15px;
 }
 
+@media (max-width: 390px) {
+    .site-collections-filter__items  {
+     
+        width:150px
+      
+    }
+    .product-grid__title{
+        font-size: 14px;
+    }
+    .product__title{
+        font-size: 25px;
+    }
+  }
