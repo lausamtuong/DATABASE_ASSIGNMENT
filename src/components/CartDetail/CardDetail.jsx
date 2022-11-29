@@ -1,26 +1,31 @@
 import React, { useState } from "react";
-import { addToCart, deleteCartProduct ,updateCartProduct} from "../../reduxToolkit/apiRequest";
+import {
+  addToCart,
+  deleteCartProduct,
+  updateCartProduct,
+} from "../../reduxToolkit/apiRequest";
 
-const CardDetail = ({ props, setState }) => {
+const CardDetail = ({ props, setState, confirmOrder }) => {
   const [soLuong, setSoLuong] = useState(props.amount);
-   let order_id = JSON?.parse(window.localStorage.getItem("order_id"))
-   order_id=order_id?.order_id
+  let order_id = JSON?.parse(window.localStorage.getItem("order_id"));
+  order_id = order_id?.order_id;
   const [size, setSize] = useState("S");
   return (
     <div className="" data-v-42acd70a>
       <div data-v-42acd70a="" class="cart-items">
         {" "}
         <div data-v-42acd70a="" class="cart-item">
-          <span
-            class="cart-item__remove"
-            onClick={() => {
-              deleteCartProduct(props.product_id, props.cart_id);
-              setState((prev) => !prev);
-            }}
-          >
-            ✕
-          </span>
-          
+          {!confirmOrder && (
+            <span
+              class="cart-item__remove"
+              onClick={() => {
+                deleteCartProduct(props.product_id, props.cart_id);
+                setState((prev) => !prev);
+              }}
+            >
+              ✕
+            </span>
+          )}
           <div class="cart__column cart__column-left">
             <div class="cart-item__thumbnail-block">
               <img
@@ -52,10 +57,11 @@ const CardDetail = ({ props, setState }) => {
                   href={`/product/detail/${props.product_id}`}
                   target="_blank"
                   class="cart-item__title"
+                  style={{fontSize:"16px"}}
                 >
                   {props.product_name}
                 </a>{" "}
-                <div class="cart-item__variant">SIZE: {`${size}`}</div>{" "}
+                <div class="cart-item__variant"><i>SIZE:</i> <b>{size}</b></div>{" "}
               </div>{" "}
               <div class="cart-item__actions">
                 <div>
@@ -63,26 +69,27 @@ const CardDetail = ({ props, setState }) => {
                     dir="auto"
                     class="v-select vue-select cart-item__select vs--single vs--unsearchable"
                   >
-                    {" "}
-                    <select
-                      id="manufacturer"
-                      value={size}
-                      onChange={(e) => setSize(e.target.value)}
-                      name="manufacturer_id"
-                      style={{
-                        fontWeight: "bold",
-                        fontSize: "18px",
-                        height: "30px",
-                        padding: "0px 0px 0px 20px",
-                      }}
-                    >
-                      <option value="S  ">S</option>
-                      <option value="M  ">M</option>
-                      <option value="L  ">L</option>
-                      <option value="XL  ">XL</option>
-                      <option value="2XL  ">2XL</option>
-                      <option value="3XL  ">3XL</option>
-                    </select>
+                    {!confirmOrder && (
+                      <select
+                        id="manufacturer"
+                        value={size}
+                        onChange={(e) => setSize(e.target.value)}
+                        name="manufacturer_id"
+                        style={{
+                          fontWeight: "bold",
+                          fontSize: "18px",
+                          height: "30px",
+                          padding: "0px 0px 0px 20px",
+                        }}
+                      >
+                        <option value="S  ">S</option>
+                        <option value="M  ">M</option>
+                        <option value="L  ">L</option>
+                        <option value="XL  ">XL</option>
+                        <option value="2XL  ">2XL</option>
+                        <option value="3XL  ">3XL</option>
+                      </select>
+                    )}
                     <ul
                       id="vs177__listbox"
                       role="listbox"
@@ -91,96 +98,106 @@ const CardDetail = ({ props, setState }) => {
                   </div>
                 </div>{" "}
                 <div class="cart-item__actions-bottom">
-                  <div data-v-3e8bcd48="" class="quantity-box">
-                    <button
-                      data-v-3e8bcd48=""
-                      class="quantity-box__decrease"
-                      onClick={() => {
-                        setSoLuong((prev) => prev - 1);
-                        setState((prev) => !prev);
-                        updateCartProduct(
-                          order_id,
-                          props.product_id,
-                          props.cart_id,
-                          soLuong-1
-                        );
-                      }}
-                    >
-                      <svg
+                  {!confirmOrder ? (
+                    <div data-v-3e8bcd48="" class="quantity-box">
+                      <button
                         data-v-3e8bcd48=""
-                        width="16"
-                        height="16"
-                        xmlns="http://www.w3.org/2000/svg"
+                        class="quantity-box__decrease"
+                        onClick={() => {
+                          setSoLuong((prev) => prev - 1);
+                          setState((prev) => !prev);
+                          updateCartProduct(
+                            order_id,
+                            props.product_id,
+                            props.cart_id,
+                            soLuong - 1
+                          );
+                        }}
                       >
-                        <g data-v-3e8bcd48="">
-                          <line
-                            data-v-3e8bcd48=""
-                            stroke-width="1.5"
-                            id="svg_6"
-                            y2="8"
-                            x2="10"
-                            y1="8"
-                            x1="5"
-                            stroke="#000000"
-                            fill="none"
-                          ></line>
-                        </g>
-                      </svg>
-                    </button>
-                    <input data-v-3e8bcd48="" type="text" value={soLuong} />
-                    <button
-                      data-v-3e8bcd48=""
-                      class="quantity-box__increase"
-                      style={{ cursor: "pointer" }}
-                      onClick={() => {
-                        setSoLuong((prev) => prev + 1);
-                        setState((prev) => !prev);
-                        updateCartProduct(
-                          order_id,
-                          props.product_id,
-                          props.cart_id,
-                          soLuong+1
-                        );
-                      }}
-                    >
-                      <svg
+                        <svg
+                          data-v-3e8bcd48=""
+                          width="16"
+                          height="16"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g data-v-3e8bcd48="">
+                            <line
+                              data-v-3e8bcd48=""
+                              stroke-width="1.5"
+                              id="svg_6"
+                              y2="8"
+                              x2="10"
+                              y1="8"
+                              x1="5"
+                              stroke="#000000"
+                              fill="none"
+                            ></line>
+                          </g>
+                        </svg>
+                      </button>
+                      <input data-v-3e8bcd48="" type="text" value={soLuong} />
+                      <button
                         data-v-3e8bcd48=""
-                        width="16"
-                        height="16"
-                        xmlns="http://www.w3.org/2000/svg"
+                        class="quantity-box__increase"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          setSoLuong((prev) => prev + 1);
+                          setState((prev) => !prev);
+                          updateCartProduct(
+                            order_id,
+                            props.product_id,
+                            props.cart_id,
+                            soLuong + 1
+                          );
+                        }}
                       >
-                        <g data-v-3e8bcd48="">
-                          <line
-                            data-v-3e8bcd48=""
-                            stroke-width="1.5"
-                            y2="8"
-                            x2="12.9695"
-                            y1="8"
-                            x1="3.0305"
-                            stroke="#000000"
-                            fill="none"
-                          ></line>{" "}
-                          <line
-                            data-v-3e8bcd48=""
-                            stroke-width="1.5"
-                            transform="rotate(90, 8, 8)"
-                            y2="8"
-                            x2="13"
-                            y1="8"
-                            x1="3"
-                            stroke="#000000"
-                            fill="none"
-                          ></line>
-                        </g>
-                      </svg>
-                    </button>
-                  </div>{" "}
+                        <svg
+                          data-v-3e8bcd48=""
+                          width="16"
+                          height="16"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g data-v-3e8bcd48="">
+                            <line
+                              data-v-3e8bcd48=""
+                              stroke-width="1.5"
+                              y2="8"
+                              x2="12.9695"
+                              y1="8"
+                              x1="3.0305"
+                              stroke="#000000"
+                              fill="none"
+                            ></line>{" "}
+                            <line
+                              data-v-3e8bcd48=""
+                              stroke-width="1.5"
+                              transform="rotate(90, 8, 8)"
+                              y2="8"
+                              x2="13"
+                              y1="8"
+                              x1="3"
+                              stroke="#000000"
+                              fill="none"
+                            ></line>
+                          </g>
+                        </svg>
+                      </button>
+                    </div>
+                  ):(
+                    <>
+                    <p><i>Số lượng: <b>{soLuong}</b></i></p>
+                    </>
+                  )}
+
                   <div class="flex flex--column">
                     <span>
-                      <b>Giá: {(props.sell_price ).toLocaleString()} </b>vnđ/1
+                      <b>Giá: {props.sell_price.toLocaleString()} </b>vnđ/1
                     </span>{" "}
                     <span>
-                      <b>Tổng: {(props.sell_price * soLuong).toLocaleString()} </b>vnđ
+                      <b>
+                        Tổng: {(props.sell_price * soLuong).toLocaleString()}{" "}
+                      </b>
+                      vnđ
                     </span>{" "}
                   </div>
                 </div>

@@ -60,7 +60,7 @@ const Payment = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      alert("Đặt đơn thành công!");
+      alert("Thành công!");
     }, 5000);
     setSender((state) => {
       return { 
@@ -485,7 +485,7 @@ const Payment = () => {
             <h2 className="">Giỏ hàng</h2>
             <div>
               {cart?.map((cartItem, index) => (
-                <CardDetail key={index} props={cartItem} setState={setState} />
+                <CardDetail key={index} props={cartItem} setState={setState} confirmOrder={confirmOrder}/>
               ))}
             </div>
             {!confirmOrder ? (
@@ -665,6 +665,7 @@ const Payment = () => {
                     onClick={() => {
                       setConfirmOrder((prev) => !prev);
                       deleteOrderProduct(order_id, cart);
+                      window.localStorage.removeItem("confirm")
                     }}
                   >
                     Hủy

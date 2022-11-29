@@ -1,142 +1,25 @@
 import React, { useEffect, useState } from "react";
 import "./style.scss";
-import video from "../../images/home__vd.mp4";
+
 import v_light from "../../images/Vlight.svg";
-import cntm_1 from "../../images/cntm_1.png";
-import cntm_2 from "../../images/cntm_2png.png";
-import cntm_3 from "../../images/cntm_3.png";
-import cntm_4 from "../../images/cntm_4.png";
-import cntm_5 from "../../images/cntm_5.png";
+import vlight_up from "../../images/Vlight-up.png"
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper";
 import "swiper/css";
-import Card from "../../components/Card/Card";
-import LuxA20 from "../../images/A20.gif";
-import LuxA20_ from "../../images/LuxA_.png";
-import Fadil from "../../images/Fadil-360.gif";
-import Fadil_ from "../../images/Fadil 1_.png";
-import LuxSA from "../../images/LuxSA20.gif";
-import LuxSA_ from "../../images/LuxSA_.png";
-import Pre from "../../images/Pre.gif";
-import Pre_ from "../../images/president_.png";
-import VFe34 from "../../images/Vfe34.gif";
-import VFe34_ from "../../images/VFe34_.png";
-import xe_may from "../../images/xe-may-dien.mp4";
-import vlight_up from "../../images/Vlight-up.png";
-import vlight_down from "../../images/Vlight-down.png";
-import klaraA2_ from "../../images/klaraA2_.png";
-import tempest_ from "../../images/tempest_.png";
-import klaraS_ from "../../images/klaraS_.png";
-import feliz_ from "../../images/feliz_.png";
-import theon_ from "../../images/theon_.png";
+
 import bg_tab from "../../images/bg.jpg";
 import bg_mobile from "../../images/bg_mobile.png";
-import { useDispatch, useSelector } from "react-redux";
+
 import MessengerCustomerChat from "react-messenger-customer-chat";
-import { loginUser } from "../../reduxToolkit/apiRequest";
-import { useNavigate } from "react-router-dom";
+
+
 import { AiFillEdit } from "react-icons/ai";
 import TextField from "@mui/material/TextField";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { Avatar, Button, Input } from "@nextui-org/react";
 
-const ListCar = [
-  {
-    img: LuxA20_,
-    gif: LuxA20,
-    title: "Tận hưởng từng khoảnh khắc",
-    name: "LUX A2.0",
-    type: "SEDAN",
-    price: "từ 949 triệu",
-    params: "852e08d81c1fbb0662d06e45e4e24216",
-  },
-  {
-    img: Fadil_,
-    gif: Fadil,
-    title: "Tối ưu mọi trải nghiệm",
-    name: "FADIL",
-    type: "HATCHBACK",
-    price: "từ 382 triệu",
-    params: "10a8089a99d768720e714c4ea2d31bc1",
-  },
-  {
-    img: LuxSA_,
-    gif: LuxSA,
-    title: "Chinh phục mọi cung đường",
-    name: "LUX SA2.0",
-    type: "SUV",
-    price: "từ 1.2 tỷ",
-    params: "6b8d7fcc6d6935e68cbb0c9463123c0a",
-  },
-  {
-    img: VFe34_,
-    gif: VFe34,
-    title: "Cùng bạn bứt phá mọi giới hạn",
-    name: "VF e34",
-    type: "SUV",
-    price: "690 triệu",
-    params: "4595e77181130d268b637271ebfc0008",
-  },
-  {
-    img: Pre_,
-    gif: Pre,
-    title: "Dấu ấn người thủ lĩnh",
-    name: "PRESIDENT",
-    type: "SUV",
-    price: "từ 3.8 tỷ",
-    params: "f260104e761c83997b267621c1ff11e3",
-  },
-];
-const ListMoto = [
-  {
-    img: theon_,
-    gif: theon_,
-    title: "Công nghệ bứt phá đỉnh cao",
-    name: "THEON",
-    type: "CAO CẤP",
-    price: "63.9 triệu",
-  },
-  {
-    img: feliz_,
-    gif: feliz_,
-    title: "Sống xanh thanh lịch",
-    name: "FELIZ",
-    type: "TRUNG CẤP",
-    price: "24.9 triệu",
-    params: "a2eea0d38e433c288b4fab47862c574c",
-  },
-  {
-    img: klaraS_,
-    gif: klaraS_,
-    title: "Khởi đầu phong cách mới",
-    name: "KLARA S",
-    type: "TRUNG CẤP",
-    price: "39.9 triệu",
-    params: "27cd252a8e5cd53f76aec0e5ba8af043",
-  },
-  {
-    img: tempest_,
-    gif: tempest_,
-    title: "Tỏa khí chất - Hút ánh nhìn",
-    name: "TEMPEST",
-    type: "PHỔ THÔNG",
-    price: "19.25 triệu",
-    params: "0dad95c3f89c96b58d8d34d23d75136f",
-  },
-  {
-    img: klaraA2_,
-    gif: klaraA2_,
-    title: "Sống xanh thanh lịch",
-    name: "KLARA A2",
-    type: "TRUNG CẤP",
-    price: "26.9 triệu",
-    params: "f4b6854c76fbc79c2528dabbf7c4a495",
-  },
-];
-const Home = ({ width }) => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const ITEM = useSelector((state) => state.auth.API.CAR);
+
+const Home = () => {
   const user = JSON.parse(window.localStorage.getItem("user"));
   const [selectedImage, setSelectedImage] = useState();
 
