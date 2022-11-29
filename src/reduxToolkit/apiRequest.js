@@ -17,7 +17,7 @@ export const loginUser = async (user, dispatch, navigate) => {
   dispatch(loginStart());
   dispatch(loginSuccess(user));
   const users = await axios
-    .post("http://localhost:8090/login", { data: user })
+    .post("https://backend-dbms.onrender.com/login", { data: user })
     .then((res) => {
       if (res.data == "false") {
         dispatch(loginFalse());
@@ -55,7 +55,7 @@ export const logoutUser = async (dispatch, navigate) => {
 };
 export const search = async (data) => {
   const list = await axios
-    .post("http://localhost:8090/search", {
+    .post("https://backend-dbms.onrender.com/search", {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -70,7 +70,7 @@ export const search = async (data) => {
 };
 export const getAllProduct = async () => {
   const list = await axios
-    .get("http://localhost:8090/getAllProduct", {
+    .get("https://backend-dbms.onrender.com/getAllProduct", {
       headers: {
         "Content-Type": "text/plain",
       },
@@ -82,7 +82,7 @@ export const getAllProduct = async () => {
 };
 export const filterProduct = async (data) => {
   const list = await axios
-    .post("http://localhost:8090/filterProduct", {
+    .post("https://backend-dbms.onrender.com/filterProduct", {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -97,7 +97,7 @@ export const filterProduct = async (data) => {
 };
 export const getTotalMoneyOrder = async (order_id) => {
   const total_money = await axios
-    .post("http://localhost:8090/getTotalMoneyOrder", {
+    .post("https://backend-dbms.onrender.com/getTotalMoneyOrder", {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -113,7 +113,7 @@ export const getTotalMoneyOrder = async (order_id) => {
 };
 export const deleteOrderProduct = async (order_id, cart) => {
   const total_money = await axios
-    .post("http://localhost:8090/deleteOrderProduct", { order_id, cart })
+    .post("https://backend-dbms.onrender.com/deleteOrderProduct", { order_id, cart })
     .then((res) => {
       return res.data;
     });
@@ -122,7 +122,7 @@ export const deleteOrderProduct = async (order_id, cart) => {
 };
 export const getCart = async (customer_id) => {
   const list = await axios
-    .post("http://localhost:8090/getCart", {
+    .post("https://backend-dbms.onrender.com/getCart", {
       headers: {
         "Content-Type": "text/plain",
       },
@@ -135,7 +135,7 @@ export const getCart = async (customer_id) => {
 };
 export const getProductCart = async (cart_id) => {
   const list = await axios
-    .post("http://localhost:8090/getProductCart", {
+    .post("https://backend-dbms.onrender.com/getProductCart", {
       headers: {
         "Content-Type": "text/plain",
       },
@@ -147,7 +147,7 @@ export const getProductCart = async (cart_id) => {
   return list;
 };
 export const deleteCartProduct = async (product_id, cart_id) => {
-  await axios.post("http://localhost:8090/deleteCartProduct", {
+  await axios.post("https://backend-dbms.onrender.com/deleteCartProduct", {
     headers: {
       "Content-Type": "text/plain",
     },
@@ -156,7 +156,7 @@ export const deleteCartProduct = async (product_id, cart_id) => {
 };
 export const getAllCustomers = async () => {
   const list = await axios
-    .get("http://localhost:8090/admin/getAllCustomers", {
+    .get("https://backend-dbms.onrender.com/admin/getAllCustomers", {
       headers: {
         "Content-Type": "text/plain",
       },
@@ -168,7 +168,7 @@ export const getAllCustomers = async () => {
 };
 export const addProduct = async (data, navigate) => {
   await axios
-    .post("http://localhost:8090/admin/addProduct", {
+    .post("https://backend-dbms.onrender.com/admin/addProduct", {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -184,7 +184,7 @@ export const addProduct = async (data, navigate) => {
 };
 export const addProductChild = async (data, navigate) => {
   await axios
-    .post("http://localhost:8090/admin/addProductChild", {
+    .post("https://backend-dbms.onrender.com/admin/addProductChild", {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -201,7 +201,7 @@ export const addProductChild = async (data, navigate) => {
 export const getDetailProduct = async (id) => {
   try {
     const detail = await axios
-      .post("http://localhost:8090/getDetailProduct", { data: id })
+      .post("https://backend-dbms.onrender.com/getDetailProduct", { data: id })
       .then((res) => {
         return res.data;
       });
@@ -211,7 +211,7 @@ export const getDetailProduct = async (id) => {
 export const getAllPromotions = async (data, dispatch) => {
   try {
     const promotions = await axios
-      .get("http://localhost:8090/getAllPromotions")
+      .get("https://backend-dbms.onrender.com/getAllPromotions")
       .then((res) => {
         return res.data;
       });
@@ -222,7 +222,7 @@ export const getAllPromotions = async (data, dispatch) => {
 export const addToCart = async (customer_id, item) => {
   try {
     axios
-      .post("http://localhost:8090/addToCart", { customer_id, item })
+      .post("https://backend-dbms.onrender.com/addToCart", { customer_id, item })
       .then((res) => {
         console.log(res);
       });
@@ -238,7 +238,7 @@ export const updateCartProduct = async (
 ) => {
   try {
     axios
-      .post("http://localhost:8090/updateCartProduct", {
+      .post("https://backend-dbms.onrender.com/updateCartProduct", {
         order_id,
         product_id,
         cart_id,
@@ -252,7 +252,7 @@ export const updateCartProduct = async (
 export const insertOrder = async (customer_id) => {
   try {
     const order_id = await axios
-      .post("http://localhost:8090/insertOrder", { customer_id })
+      .post("https://backend-dbms.onrender.com/insertOrder", { customer_id })
       .then((res) => {
         return res.data;
       });
@@ -264,7 +264,7 @@ export const insertOrder = async (customer_id) => {
 export const insertProductOrder = async (order_id, cart) => {
   try {
     console.log(123);
-    axios.post("http://localhost:8090/insertProductOrder", { order_id, cart });
+    axios.post("https://backend-dbms.onrender.com/insertProductOrder", { order_id, cart });
   } catch (error) {
     console.log(error);
   }
@@ -272,7 +272,7 @@ export const insertProductOrder = async (order_id, cart) => {
 export const registerUser = async (user, dispatch, navigate) => {
   dispatch(registerStart());
   try {
-    axios.post("http://localhost:8090/register", user).then((res) => {
+    axios.post("https://backend-dbms.onrender.com/register", user).then((res) => {
       if (res.data == "AccountExist") {
         const target = document.querySelector(".overlayz");
         target.classList.toggle("none");
@@ -303,7 +303,7 @@ export const updateUser = async (data, dispatch) => {
 
 export const payment = async (data) => {
   try {
-    axios.post("http://localhost:8090/payment ", data);
+    axios.post("https://backend-dbms.onrender.com/payment ", data);
   } catch (error) {}
 };
 export const getRow = async (data) => {
