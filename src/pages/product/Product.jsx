@@ -78,7 +78,7 @@ const Product = () => {
                 />
               </span>
             </div>
-            <div class="site-collections-filter__items ">
+            <div class="site-collections-filter__items sizeNho">
               <span>
                 <img
                   src="https://image-cdn.hypb.st/https%3A%2F%2Fhypebeast.com%2Fimage%2F2019%2F12%2Fnike-dunk-low-viotech-closer-look-release-information-CT5050-500-00.jpg?w=960&cbr=1&q=90&fit=max"
@@ -86,6 +86,7 @@ const Product = () => {
                   onClick={checkHandle}
                   id="CAT0002 "
                   type="SHOSE"
+                  
                 />
               </span>
             </div>
