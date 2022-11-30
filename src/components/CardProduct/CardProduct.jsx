@@ -8,24 +8,6 @@ const CardProduct = ({ item }) => {
 
   const navigate = useNavigate()
   let user = JSON?.parse(window.localStorage.getItem("user")); 
-  // const images = document.querySelectorAll('img')
-  //   window.addEventListener('DOMContentLoaded',()=>{
-  //     images.forEach(image=>{
-  //       new IntersectionObserver((entries,observe)=>{
-  //         entries.forEach(entry=>{
-  //           if(entry.isIntersecting){
-  //             const img = entry.target
-  //             const dataSrc = img.getAttribute('data-src')
-  //             img.setAttribute('src',dataSrc)
-  //             img.removeAttribute('data-src')
-  //             console.log(img)
-  //             observe.disconnect()
-  //           }
-  //         })
-          
-  //       }).observe(image)
-  //     })
-  //   })
   const handleChoose = (e) => {  
     if(!user) alert("Khách hàng cần đăng nhập để mua sắm, Xin cảm ơn!") 
     else {
@@ -200,12 +182,13 @@ const CardProduct = ({ item }) => {
           </div>
           <div data-collection-tag="" class="product-grid__content">
             <h3 class="product-grid__title">
-              <a
-                href="https://www.coolmate.me/product/ao-hoodie-nam-daily-wear-mu-trum-co-day-rut?color=xanh-navy"
+              <div
+                style={{cursor:"pointer"}}
+                onClick={()=>navigate(`./detail/${item.product_id}`)}
                 rel-script="product-title"
               >
                 {item.product_name}
-              </a>
+              </div>
             </h3>{" "}
             <div class="product-grid__prices">
               <div

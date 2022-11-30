@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import "./detail.scss";
 
 import { getDetailProduct } from "../../reduxToolkit/apiRequest";
@@ -13,7 +12,10 @@ const Detail = () => {
     getDetailProduct(params.id).then((res) => setDetail(res[0]));
     window.scrollTo(0, 0);
   }, []);
-  console.log(detail);
+  window.addEventListener("resize",e=>{
+
+    console.log(window.innerWidth)
+  })
   return (
     <>
       <div className="">
@@ -55,12 +57,12 @@ const Detail = () => {
                         >
                           <a
                             href="#"
-                            className="image slick-slide"
+                            className="image slick-slide "
                             rel-script="product-lightbox-gallery"
                             data-slick-index="0"
                             aria-hidden="true"
                             style={{
-                              width: "721px",
+                              width: `${window.innerWidth*0.9>721?721:window.innerWidth*0.9}px`,
                               position: "relative",
                               left: "0px",
                               top: " 0px",
