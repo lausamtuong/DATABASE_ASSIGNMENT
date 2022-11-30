@@ -373,6 +373,11 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <MessengerCustomerChat
+    pageId="1426771290948216"
+    appId="668526127603326"
+    
+  />,
     </div>
   );
 };

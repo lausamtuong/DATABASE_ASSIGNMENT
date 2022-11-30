@@ -15,7 +15,7 @@ const ProductList = ({ list }) => {
     gap: "20px",
   };
   const [scroll, setScroll] = useState({
-    items: Array.from({ length: 20 }),
+    items: Array.from({ length: 10 }),
     hasMore: true,
   });
   const fetchMoreData = () => {
@@ -31,7 +31,7 @@ const ProductList = ({ list }) => {
       setScroll((state) => {
         return {
           ...state,
-          items: scroll.items.concat(Array.from({ length: 20 })),
+          items: scroll.items.concat(Array.from({ length: 10 })),
         };
       });
     }, 500);
