@@ -10,7 +10,7 @@ import "swiper/css";
 import bg_tab from "../../images/bg.jpg";
 import bg_mobile from "../../images/bg_mobile.png";
 
-import MessengerCustomerChat from "react-messenger-customer-chat";
+
 
 
 import { AiFillEdit } from "react-icons/ai";
@@ -373,11 +373,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <MessengerCustomerChat
-    pageId="1426771290948216"
-    appId="668526127603326"
-    
-  />,
+     
     </div>
   );
 };
