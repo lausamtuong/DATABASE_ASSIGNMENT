@@ -1,15 +1,36 @@
 @use "../../scss/" as * ;
 .product__grid{ 
-    display: flex;
-    display: -webkit-flex;
-    -moz-flex-direction: row;
-    flex-direction: row;
-    flex-wrap: wrap;
+   
     margin-left: -9px;
     margin-right: -9px;
     padding: 0;
     position: relative;
-    float: none;
-    gap:20px;
-    justify-content: center;
+    
+  
+}
+@media only screen and (max-width: 1440px) {
+  .childStyle {
+    width: 22% ;
+  }
+}
+@media only screen and (max-width: 390px)   and (min-width: 120px) {
+  .childStyle {
+    width: 60%  ;
+  }
+  .block{
+   display:none !important
+  }
+}
+@media only screen and (max-width: 660px) and (min-width:390px) {
+  .childStyle {
+    width: 40% ;
+  }
+  .block{
+    display:none !important
+   }
+}
+@media only screen and (max-width: 990px) and (min-width: 660px){
+  .childStyle {
+    width: 30% ;
+  }
 }

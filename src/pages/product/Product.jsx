@@ -13,22 +13,19 @@ import {
 } from "../../reduxToolkit/apiRequest";
 import MenuItem from "@mui/material/MenuItem";
 import { Input } from "@nextui-org/react";
-import Select from "@mui/material/Select";
 
 const Product = () => {
   const fuel = useSelector((state) => state.auth.fuel);
   const [inputText, setInputText] = useState("");
   const [list, setList] = useState([]);
-  const banner = useSelector((state) => state?.auth?.API?.BANNER);
-  const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(true);
   useEffect(async () => {
     setLoading(true);
     const temp = await getAllProduct();
     setList(temp);
     setLoading(false);
+    window.scrollTo(0, 0);
   }, []);
-  window.scrollTo(0, 0);
   const inputHandler = async (e) => {
     //convert input text to lower case
     var lowerCase = e.target.value.toLowerCase();
@@ -128,30 +125,9 @@ const Product = () => {
         </div>
         <div className="product__title">sản phẩm bán chạy</div>
         <div className="product__main">
-          {loading ? (
-            <div style={{display:"flex",justifyContent:"center"}}>
-              <div id="wifi-loader">
-                <svg class="circle-outer" viewBox="0 0 86 86">
-                  <circle class="back" cx="43" cy="43" r="40"></circle>
-                  <circle class="front" cx="43" cy="43" r="40"></circle>
-                  <circle class="new" cx="43" cy="43" r="40"></circle>
-                </svg>
-                <svg class="circle-middle" viewBox="0 0 60 60">
-                  <circle class="back" cx="30" cy="30" r="27"></circle>
-                  <circle class="front" cx="30" cy="30" r="27"></circle>
-                </svg>
-                <svg class="circle-inner" viewBox="0 0 34 34">
-                  <circle class="back" cx="17" cy="17" r="14"></circle>
-                  <circle class="front" cx="17" cy="17" r="14"></circle>
-                </svg>
-                <div class="text" data-text="Loading"></div>
-              </div>
-            </div>
-          ) : (
-            <div className="product__list">
-              <ProductList list={list} fuel={fuel} />
-            </div>
-          )}
+          <div className="product__list">
+            <ProductList list={list} />
+          </div>
         </div>
       </div>
     </>

@@ -8,25 +8,24 @@ const CardProduct = ({ item }) => {
 
   const navigate = useNavigate()
   let user = JSON?.parse(window.localStorage.getItem("user")); 
-  const images = document.querySelectorAll('img')
-  console.log(images)
-    window.addEventListener('DOMContentLoaded',()=>{
-      images.forEach(image=>{
-        new IntersectionObserver((entries,observe)=>{
-          entries.forEach(entry=>{
-            if(entry.isIntersecting){
-              const img = entry.target
-              const dataSrc = img.getAttribute('data-src')
-              img.setAttribute('src',dataSrc)
-              img.removeAttribute('data-src')
-              console.log(img)
-              observe.disconnect()
-            }
-          })
+  // const images = document.querySelectorAll('img')
+  //   window.addEventListener('DOMContentLoaded',()=>{
+  //     images.forEach(image=>{
+  //       new IntersectionObserver((entries,observe)=>{
+  //         entries.forEach(entry=>{
+  //           if(entry.isIntersecting){
+  //             const img = entry.target
+  //             const dataSrc = img.getAttribute('data-src')
+  //             img.setAttribute('src',dataSrc)
+  //             img.removeAttribute('data-src')
+  //             console.log(img)
+  //             observe.disconnect()
+  //           }
+  //         })
           
-        }).observe(image)
-      })
-    })
+  //       }).observe(image)
+  //     })
+  //   })
   const handleChoose = (e) => {  
     if(!user) alert("Khách hàng cần đăng nhập để mua sắm, Xin cảm ơn!") 
     else {
