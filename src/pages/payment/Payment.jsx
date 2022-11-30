@@ -20,7 +20,9 @@ const override = css`
 `;
 const Payment = () => {
   let user = JSON?.parse(window.localStorage.getItem("user"));
-   let order_id = JSON?.parse(window.localStorage.getItem("order_id"));
+   let order_id ;
+   if(window.localStorage.getItem("order_id")!=undefined)
+      order_id = JSON?.parse(window.localStorage.getItem("order_id"));
   let confirm = JSON?.parse(window.localStorage.getItem("confirm"));
   const [cart, setCart] = useState([]);
   const [state, setState] = useState(false);
@@ -69,7 +71,7 @@ const Payment = () => {
          customer_id:user.customer_id
        };
     });
-    console.log(sender)
+
     const x = await insertProductOrder(order_id, cart);
     let current = 0;
     let timerId = setInterval(async function () {
@@ -480,7 +482,7 @@ const Payment = () => {
             )}
           </div>
         </div>
-        <div className="grid__column five-twelfths mobile--one-whole">
+        <div className="grid__columnn five-twelfths mobile--one-whole">
           <div className="cart-section">
             <h2 className="">Giỏ hàng</h2>
             <div>
@@ -499,8 +501,8 @@ const Payment = () => {
                   .
                 </p>
                 <button
-                  className="btn mb"
-                  style={{ margin: "20px 20px", padding: "10px 0px" }}
+                  className="btn mb "
+                  style={{ margin: "20px 20px", padding: "10px 0px",width: "100%" }}
                   onClick={handleConfirm}
                 >
                   Xác nhận
@@ -662,6 +664,7 @@ const Payment = () => {
                       margin: "20px 20px",
                       padding: "10px 0px",
                       marginBottom: "20px !important",
+                      width: "100%"
                     }}
                     onClick={() => {
                       setConfirmOrder((prev) => !prev);

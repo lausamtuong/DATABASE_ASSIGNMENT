@@ -44,9 +44,9 @@ const Register = () => {
         password: values.password,
         username: values.username,
         type: isclek?"Tài khoản nhân viên":"Tài khoản khách hàng",
-        id_clek:"",
+        id_clek:isclek?"ACC"+uuidv4().toString().replaceAll("-",'').slice(0,5):"",
       };
-     
+     console.log(newUser)
       registerUser(newUser,dispatch,navigate)
     },
   });

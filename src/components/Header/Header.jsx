@@ -115,7 +115,7 @@ const Header = () => {
                 </div>
               </div>
               <div className="more__user">
-                {user.isAdmin == "true" ? (
+                {user.type_account =="Tài khoản nhân viên" ? (
                   <div
                     className="more__user-info"
                     onClick={() => navigate("admin")}

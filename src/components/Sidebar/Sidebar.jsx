@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './sidebar.scss'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
-import  Vinfast_logo from '../../images/Vinfast-logo.png'
+import  Vinfast_logo from '../../images/CoolmateTrans.png'
 import sidebarNav from '../../config/sidebarNav'
 import {FcExport} from "react-icons/fc";
 import { useDispatch } from 'react-redux'

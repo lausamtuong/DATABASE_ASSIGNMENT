@@ -33,9 +33,9 @@
         }
 
         img {
-            --size: 55px;
+            --size: 140px;
             width: var(--size);
-            height: var(--size); 
+            object-fit: cover;
             cursor: pointer;
         }
 

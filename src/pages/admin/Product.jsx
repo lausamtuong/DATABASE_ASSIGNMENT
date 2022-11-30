@@ -251,7 +251,7 @@ const Product = () => {
     const [rows, setRows] = useState([]);
     useEffect(() => {
       axios
-        .get("http://localhost:8090/admin/product", {
+        .get("https://backend-dbms.onrender.com/admin/product", {
           headers: {
             "Access-Control-Allow-Headers": "Origin, Content-Type, Accept",
             "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
