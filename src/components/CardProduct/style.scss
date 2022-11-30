@@ -235,7 +235,9 @@ ins {
   .grid__column {
     width: 40% ;
   }
-  
+  .block{
+    display:none !important
+   }
 }
 @media only screen and (max-width: 990px) and (min-width: 660px){
   .grid__column {

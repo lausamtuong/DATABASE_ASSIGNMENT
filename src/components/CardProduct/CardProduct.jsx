@@ -8,6 +8,25 @@ const CardProduct = ({ item }) => {
 
   const navigate = useNavigate()
   let user = JSON?.parse(window.localStorage.getItem("user")); 
+  const images = document.querySelectorAll('img')
+  console.log(images)
+    window.addEventListener('DOMContentLoaded',()=>{
+      images.forEach(image=>{
+        new IntersectionObserver((entries,observe)=>{
+          entries.forEach(entry=>{
+            if(entry.isIntersecting){
+              const img = entry.target
+              const dataSrc = img.getAttribute('data-src')
+              img.setAttribute('src',dataSrc)
+              img.removeAttribute('data-src')
+              console.log(img)
+              observe.disconnect()
+            }
+          })
+          
+        }).observe(image)
+      })
+    })
   const handleChoose = (e) => {  
     if(!user) alert("Khách hàng cần đăng nhập để mua sắm, Xin cảm ơn!") 
     else {
@@ -31,8 +50,8 @@ const CardProduct = ({ item }) => {
           <div className="product-grid__thumbnail coolactive-tag">
             <div className="product-grid__image">
               <div style={{cursor:"pointer"}} onClick={()=>navigate(`./detail/${item.product_id}`)}>
-                <img className="home-banner " src={item.illustration} alt="Shirt" />
-                <img src={item.illustration} alt="shirt" className="hover zoom" />
+                <img src={item.illustration} loading="lazy" alt="shirt" data-src={item.illustration} />
+                <img src={item.illustration} loading="lazy" alt="shirt" className="hover zoom" />
               </div>
             </div>
             <span className="product-grid__tags product-grid__tags--new">

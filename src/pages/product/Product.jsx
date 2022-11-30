@@ -1,16 +1,16 @@
-import React, { useState,useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import ProductList from "../../components/product-list/ProductList";
 import "./product.scss";
-import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 import "swiper/css";
-import Button from "../../components/button/Button";
-import Privacy from "../../components/privacy/Privacy";
-import {  filterProduct, getAllProduct, search } from "../../reduxToolkit/apiRequest";
+import {
+  filterProduct,
+  getAllProduct,
+  search,
+} from "../../reduxToolkit/apiRequest";
 import MenuItem from "@mui/material/MenuItem";
 import { Input } from "@nextui-org/react";
 import Select from "@mui/material/Select";
@@ -21,26 +21,27 @@ const Product = () => {
   const [list, setList] = useState([]);
   const banner = useSelector((state) => state?.auth?.API?.BANNER);
   const [show, setShow] = useState(false);
-  useEffect(async() => { 
+  const [loading, setLoading] = useState(true);
+  useEffect(async () => {
+    setLoading(true);
     const temp = await getAllProduct();
     setList(temp);
-
- }, []);
+    setLoading(false);
+  }, []);
   window.scrollTo(0, 0);
   const inputHandler = async (e) => {
     //convert input text to lower case
     var lowerCase = e.target.value.toLowerCase();
     setInputText(lowerCase);
-    const temp = await search(lowerCase)
-   setList(temp)
-
+    const temp = await search(lowerCase);
+    setList(temp);
   };
 
   var type_;
-  const checkHandle = async(e) => {
+  const checkHandle = async (e) => {
     type_ = e.target.getAttribute("id") + "";
-    const temp = await filterProduct(type_)
-    setList(temp)
+    const temp = await filterProduct(type_);
+    setList(temp);
   };
   return (
     <>
@@ -121,23 +122,40 @@ const Product = () => {
               <div class="collections-filter__inner">
                 <h2 class="collections-filter__heading">Sản phẩm</h2>
               </div>{" "}
-              <Input placeholder="Search"  onChange={inputHandler} />
-             
+              <Input placeholder="Search" onChange={inputHandler} />
             </div>
           </div>
         </div>
         <div className="product__title">sản phẩm bán chạy</div>
         <div className="product__main">
-          <div className="product__list">
-            <ProductList list={list} fuel={fuel}/>
-          </div>
+          {loading ? (
+            <div style={{display:"flex",justifyContent:"center"}}>
+              <div id="wifi-loader">
+                <svg class="circle-outer" viewBox="0 0 86 86">
+                  <circle class="back" cx="43" cy="43" r="40"></circle>
+                  <circle class="front" cx="43" cy="43" r="40"></circle>
+                  <circle class="new" cx="43" cy="43" r="40"></circle>
+                </svg>
+                <svg class="circle-middle" viewBox="0 0 60 60">
+                  <circle class="back" cx="30" cy="30" r="27"></circle>
+                  <circle class="front" cx="30" cy="30" r="27"></circle>
+                </svg>
+                <svg class="circle-inner" viewBox="0 0 34 34">
+                  <circle class="back" cx="17" cy="17" r="14"></circle>
+                  <circle class="front" cx="17" cy="17" r="14"></circle>
+                </svg>
+                <div class="text" data-text="Loading"></div>
+              </div>
+            </div>
+          ) : (
+            <div className="product__list">
+              <ProductList list={list} fuel={fuel} />
+            </div>
+          )}
         </div>
-       
       </div>
-     
     </>
   );
 };
-
 
 export default Product;

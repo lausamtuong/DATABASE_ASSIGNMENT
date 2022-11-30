@@ -1,11 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  AiOutlineMenu,
-  AiOutlineGlobal,
-  AiOutlineHome,
-  AiFillCar,
-  AiOutlineGift,
-} from "react-icons/ai";
+import { AiOutlineHome, AiFillCar } from "react-icons/ai";
 import { BiNews } from "react-icons/bi";
 import { GrContact } from "react-icons/gr";
 import { FaTimes } from "react-icons/fa";
@@ -31,7 +25,6 @@ const NavItems = [
     to: "/news",
     section: "news",
   },
- 
 ];
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -40,11 +33,12 @@ const Sidebar = () => {
   const sideBarRef = useRef();
   const indicatorRef = useRef();
   const location = useLocation();
+  const user = JSON?.parse(window.localStorage.getItem("user"));
   useEffect(() => {
     setTimeout(() => {
       const sideBaritem = sideBarRef.current.querySelector(".nav__tablet-item");
-      indicatorRef.current.style.height = `${sideBaritem.clientHeight }px`;
-      setStepHeight(sideBaritem.clientHeight+20);
+      indicatorRef.current.style.height = `${sideBaritem.clientHeight}px`;
+      setStepHeight(sideBaritem.clientHeight + 20);
     }, 50);
   }, []);
   useEffect(() => {
@@ -52,7 +46,8 @@ const Sidebar = () => {
 
     const activeItem = NavItems.findIndex((item) => item.section === curPath);
     setActiveIndex(curPath.length === 0 ? 0 : activeItem);
-    if (curPath === "login" ||curPath ==='info'||curPath=='history') setActiveIndex(-10);
+    if (curPath === "login" || curPath === "info" || curPath == "history")
+      setActiveIndex(-10);
   }, [location]);
   return (
     <ul ref={sideBarRef} className="nav__tablet-list">
@@ -60,7 +55,7 @@ const Sidebar = () => {
         ref={indicatorRef}
         style={{
           transform: `translateX(-50%) translateY(${
-            activeIndex * stepHeight +15
+            activeIndex * stepHeight + 15
           }px)`,
         }}
         className="indicator"
@@ -77,13 +72,20 @@ const Sidebar = () => {
           </li>
         </Link>
       ))}
-
-      <div className="button_" onClick={() => navigate("login")}>
-        <button className="button">
-          <span className="button-text"> Tài khoản</span>
-        </button>
-      </div>
-      <li className="nav__tablet-item" onClick={() => navigate("contact")} style={{cursor: "pointer"}}>
+      {user ? (
+        ""
+      ) : (
+        <div className="button_" onClick={() => navigate("login")}>
+          <button className="button">
+            <span className="button-text"> Tài khoản</span>
+          </button>
+        </div>
+      )}
+      <li
+        className="nav__tablet-item"
+        onClick={() => navigate("contact")}
+        style={{ cursor: "pointer" }}
+      >
         <GrContact />
         Liên hệ
       </li>
