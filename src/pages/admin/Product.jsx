@@ -13,6 +13,7 @@ import { addProduct } from "../../reduxToolkit/apiRequest";
 const Product = () => {
   const [product, setProduct] = useState(null);
   const navigate = useNavigate()
+  console.log(1)
   const ProductList = ({ setProduct }) => {
     const [visible, setVisible] = React.useState(false);
     const [valueManufacturer, setValueManufacturer] = React.useState("");
