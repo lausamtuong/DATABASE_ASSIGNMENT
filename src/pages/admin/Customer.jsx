@@ -6,9 +6,11 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import UserEdit from './UserEdit';
 import { useEffect } from 'react';
 import { AiOutlineReload,AiOutlineDown } from "react-icons/ai";
-import { getAllCustomers } from '../../reduxToolkit/apiRequest';
+import { deleteCustomer, getAllCustomers } from '../../reduxToolkit/apiRequest';
+import axios from 'axios';
 const Customer = () => {
   const [rows, setRow] = useState([]);
+  const [user,setUser] = useState()
   const columns = [
     { field: "customer_id", headerName: "ID", width: 70 },
     {
@@ -46,7 +48,7 @@ const Customer = () => {
       renderCell: (params) => {
         return (
           <div className="userItem">
-            {params.row.register_date == "" ? "undefined" : params.row.register_date}
+            {params.row.register_date == "" ? "undefined" : params.row.register_date.slice(0,10)}
           </div>
         );
       },
@@ -73,7 +75,7 @@ const Customer = () => {
       renderCell: (params) => {
         return (
           <div className="userItem">
-            {params.row.bdate == "" ? "0" : params.row.bdate}
+            {params.row.bdate == "" ? "0" : params.row.bdate.slice(0,10)}
           </div>
         );
       },
@@ -129,11 +131,11 @@ const Customer = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link to={`./user/${params.row.id}`}>
+            <Link to={`./user/${params.id}`}>
               <button
                 className="userListEdit"
                 onClick={() => {
-                  renderRow();
+             
                   setUser(params.row);
                 }}
               >
@@ -144,7 +146,8 @@ const Customer = () => {
             <DeleteOutlineIcon
               className="userListDelete"
               onClick={() => {
-                deleteUser(params.id);
+                deleteCustomer(params.id);
+                alert("Xóa thành công")
               }}
             />
           </>
@@ -162,10 +165,17 @@ const Customer = () => {
     },
     
   ];
-  useEffect(async() => {
-    const temp  = await getAllCustomers()
+  useEffect(() => {
+    axios
+    .get(`http://localhost:8090/admin/getAllCustomers`, {
+      headers: {
+        "Content-Type": "text/plain",
+      },
+    })
+    .then((res) => {
+      setRow(res.data[0]);
+    });
 
-    setRow(temp);
    },[] );
   const CustomerList = () => {
     return (
@@ -187,7 +197,7 @@ const Customer = () => {
       <Routes>
           <Route path='/' element={<CustomerList   /> } />
           <Route path='/user/:id' element={<UserEdit 
-       //   user={props.user} renderRow={props.renderRow} 
+         user={user} 
           />}/>
       </Routes>
   );

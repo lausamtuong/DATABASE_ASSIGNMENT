@@ -35,7 +35,7 @@ const SummaryBox = ({ item }) => {
                         <span>{item.subtitle}</span>
                     </div>
                     <div className="summary-box__info__value">
-                        {item.value}
+                        {item.value.toLocaleString() +(item.title=="Revenue"?" VND":"")}
                     </div>
                 </div>
                 <div className="summary-box__chart">

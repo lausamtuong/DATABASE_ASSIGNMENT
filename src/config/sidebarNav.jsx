@@ -13,12 +13,6 @@ const sidebarNav = [
         text: 'Home'
     },
     {
-        link: './contacts',
-        section: 'contact',
-        icon: <FcKindle size={30} />,
-        text: 'Contacts'
-    },
-    {
         link: './customers',
         section: 'customers',
         icon: <FcVoicePresentation size={30}/>,
@@ -29,12 +23,6 @@ const sidebarNav = [
         section: 'product',
         icon: <FcRadarPlot size={30}/>,
         text: 'Product'
-    },
-    {
-        link: './clek',
-        section: 'clek',
-        icon: <FcConferenceCall size={30}/>,
-        text: 'clek'
     },
    
 ]

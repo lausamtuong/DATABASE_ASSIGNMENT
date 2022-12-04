@@ -45,7 +45,7 @@ const ProductList = ({ list }) => {
           next={fetchMoreData}
           hasMore={scroll.hasMore}
           loader={
-            <>
+           
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <div id="wifi-loader">
                   <svg class="circle-outer" viewBox="0 0 86 86">
@@ -64,7 +64,7 @@ const ProductList = ({ list }) => {
                   <div class="text" data-text="Loading"></div>
                 </div>
               </div>
-            </>
+          
           }
           endMessage={
             <p style={{ textAlign: "center" }}>

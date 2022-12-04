@@ -12,12 +12,14 @@ import {
   filter,
 } from "./authSlice";
 
+//const BASE_URL= "https://backend-dbms.onrender.com"
+const BASE_URL = "http://localhost:8090";
 import axios from "axios";
 export const loginUser = async (user, dispatch, navigate) => {
   dispatch(loginStart());
   dispatch(loginSuccess(user));
   const users = await axios
-    .post("https://backend-dbms.onrender.com/login", { data: user })
+    .post(`${BASE_URL}/login`, { data: user })
     .then((res) => {
       if (res.data == "false") {
         dispatch(loginFalse());
@@ -28,7 +30,7 @@ export const loginUser = async (user, dispatch, navigate) => {
       } else {
         window.localStorage.setItem("user", JSON.stringify(res.data));
         const user = JSON?.parse(window.localStorage.getItem("user"));
-        console.log(user);
+
         if (res.data.type_account == "Tài khoản khách hàng") {
           setTimeout(() => {
             dispatch(loginSuccess(res.data));
@@ -55,7 +57,7 @@ export const logoutUser = async (dispatch, navigate) => {
 };
 export const search = async (data) => {
   const list = await axios
-    .post("https://backend-dbms.onrender.com/search", {
+    .post(`${BASE_URL}/search`, {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -70,7 +72,7 @@ export const search = async (data) => {
 };
 export const getAllProduct = async () => {
   const list = await axios
-    .get("https://backend-dbms.onrender.com/getAllProduct", {
+    .get(`${BASE_URL}/getAllProduct`, {
       headers: {
         "Content-Type": "text/plain",
       },
@@ -82,7 +84,7 @@ export const getAllProduct = async () => {
 };
 export const filterProduct = async (data) => {
   const list = await axios
-    .post("https://backend-dbms.onrender.com/filterProduct", {
+    .post(`${BASE_URL}/filterProduct`, {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -97,7 +99,7 @@ export const filterProduct = async (data) => {
 };
 export const getTotalMoneyOrder = async (order_id) => {
   const total_money = await axios
-    .post("https://backend-dbms.onrender.com/getTotalMoneyOrder", {
+    .post(`${BASE_URL}/getTotalMoneyOrder`, {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -113,7 +115,7 @@ export const getTotalMoneyOrder = async (order_id) => {
 };
 export const deleteOrderProduct = async (order_id, cart) => {
   const total_money = await axios
-    .post("https://backend-dbms.onrender.com/deleteOrderProduct", { order_id, cart })
+    .post(`${BASE_URL}/deleteOrderProduct`, { order_id, cart })
     .then((res) => {
       return res.data;
     });
@@ -122,7 +124,7 @@ export const deleteOrderProduct = async (order_id, cart) => {
 };
 export const getCart = async (customer_id) => {
   const list = await axios
-    .post("https://backend-dbms.onrender.com/getCart", {
+    .post(`${BASE_URL}/getCart`, {
       headers: {
         "Content-Type": "text/plain",
       },
@@ -135,7 +137,7 @@ export const getCart = async (customer_id) => {
 };
 export const getProductCart = async (cart_id) => {
   const list = await axios
-    .post("https://backend-dbms.onrender.com/getProductCart", {
+    .post(`${BASE_URL}/getProductCart`, {
       headers: {
         "Content-Type": "text/plain",
       },
@@ -147,7 +149,7 @@ export const getProductCart = async (cart_id) => {
   return list;
 };
 export const deleteCartProduct = async (product_id, cart_id) => {
-  await axios.post("https://backend-dbms.onrender.com/deleteCartProduct", {
+  await axios.post(`${BASE_URL}/deleteCartProduct`, {
     headers: {
       "Content-Type": "text/plain",
     },
@@ -156,7 +158,7 @@ export const deleteCartProduct = async (product_id, cart_id) => {
 };
 export const getAllCustomers = async () => {
   const list = await axios
-    .get("https://backend-dbms.onrender.com/admin/getAllCustomers", {
+    .get(`${BASE_URL}/admin/getAllCustomers`, {
       headers: {
         "Content-Type": "text/plain",
       },
@@ -168,7 +170,7 @@ export const getAllCustomers = async () => {
 };
 export const addProduct = async (data, navigate) => {
   await axios
-    .post("https://backend-dbms.onrender.com/admin/addProduct", {
+    .post(`${BASE_URL}/admin/addProduct`, {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -178,13 +180,14 @@ export const addProduct = async (data, navigate) => {
     })
     .then((res) => {
       res.data;
+      alert("Thêm sản phẩm thành công!");
       navigate("");
     })
     .catch((error) => alert(error.response.data));
 };
 export const addProductChild = async (data, navigate) => {
   await axios
-    .post("https://backend-dbms.onrender.com/admin/addProductChild", {
+    .post(`${BASE_URL}/admin/addProductChild`, {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -201,7 +204,7 @@ export const addProductChild = async (data, navigate) => {
 export const getDetailProduct = async (id) => {
   try {
     const detail = await axios
-      .post("https://backend-dbms.onrender.com/getDetailProduct", { data: id })
+      .post(`${BASE_URL}/getDetailProduct`, { data: id })
       .then((res) => {
         return res.data;
       });
@@ -211,7 +214,7 @@ export const getDetailProduct = async (id) => {
 export const getAllPromotions = async (data, dispatch) => {
   try {
     const promotions = await axios
-      .get("https://backend-dbms.onrender.com/getAllPromotions")
+      .get(`${BASE_URL}/getAllPromotions`)
       .then((res) => {
         return res.data;
       });
@@ -221,11 +224,9 @@ export const getAllPromotions = async (data, dispatch) => {
 
 export const addToCart = async (customer_id, item) => {
   try {
-    axios
-      .post("https://backend-dbms.onrender.com/addToCart", { customer_id, item })
-      .then((res) => {
-        console.log(res);
-      });
+    axios.post(`${BASE_URL}/addToCart`, { customer_id, item }).then((res) => {
+      console.log(res);
+    });
   } catch (error) {
     console.log(error);
   }
@@ -238,7 +239,7 @@ export const updateCartProduct = async (
 ) => {
   try {
     axios
-      .post("https://backend-dbms.onrender.com/updateCartProduct", {
+      .post(`${BASE_URL}/updateCartProduct`, {
         order_id,
         product_id,
         cart_id,
@@ -249,10 +250,23 @@ export const updateCartProduct = async (
     console.log(error);
   }
 };
+export const updateCustomer = async (data, navigate) => {
+  try {
+    axios
+      .post(`${BASE_URL}/admin/updateCustomer`, data)
+      .then((res) => {
+        alert("Cập nhật thông tin khách hàng thành công!");
+        navigate("/admin");
+      })
+      .catch((error) => alert(error.response.data));
+  } catch (error) {
+    alert(error.response);
+  }
+};
 export const insertOrder = async (customer_id) => {
   try {
     const order_id = await axios
-      .post("https://backend-dbms.onrender.com/insertOrder", { customer_id })
+      .post(`${BASE_URL}/insertOrder`, { customer_id })
       .then((res) => {
         return res.data;
       });
@@ -264,7 +278,7 @@ export const insertOrder = async (customer_id) => {
 export const insertProductOrder = async (order_id, cart) => {
   try {
     console.log(123);
-    axios.post("https://backend-dbms.onrender.com/insertProductOrder", { order_id, cart });
+    axios.post(`${BASE_URL}/insertProductOrder`, { order_id, cart });
   } catch (error) {
     console.log(error);
   }
@@ -272,7 +286,7 @@ export const insertProductOrder = async (order_id, cart) => {
 export const registerUser = async (user, dispatch, navigate) => {
   dispatch(registerStart());
   try {
-    axios.post("https://backend-dbms.onrender.com/register", user).then((res) => {
+    axios.post(`${BASE_URL}/register`, user).then((res) => {
       if (res.data == "AccountExist") {
         const target = document.querySelector(".overlayz");
         target.classList.toggle("none");
@@ -294,30 +308,62 @@ export const updateUserPassword = async (data, dispatch, navigate) => {
   // });
 };
 
-export const updateUser = async (data, dispatch) => {
-  // axios.post("http://localhost:8080/WEB/Vietfast/BE/index.php", data).then((res) => {
-  // alert('Cập nhật thông tin thành công!');
-  //   dispatch(logout());
-  // });
-};
-
 export const payment = async (data) => {
   try {
-    axios.post("https://backend-dbms.onrender.com/payment ", data);
+    axios.post(`${BASE_URL}/payment`, data);
   } catch (error) {}
 };
-export const getRow = async (data) => {
-  //   const list = axios
-  //   .post("http://localhost:8080/WEB/Vietfast/BE/index.php", data)
-  //   .then((res) => {
-  //     return res.data;
-  //   });
-  // return list;
+export const getsumary = async (data) => {
+  const list = await axios.get(`${BASE_URL}/admin/sumary`).then((res) => {
+    return res.data;
+  });
+  return list;
 };
-export const deleteUsers = async (data) => {
-  // axios.post("http://localhost:8080/WEB/Vietfast/BE/index.php", data).then((res) => {
-  //   console.log(res.data)
-  // });
+export const getsumaryOrder = async (data) => {
+  const list = await axios.get(`${BASE_URL}/admin/sumaryOrder`).then((res) => {
+    return res.data;
+  });
+  return list;
+};
+export const getsumaryMoney = async (data) => {
+  const list = await axios.get(`${BASE_URL}/admin/sumaryMoney`).then((res) => {
+    return res.data;
+  });
+  return list;
+};
+export const getsumaryProduct = async (data) => {
+  const list = await axios
+    .get(`${BASE_URL}/admin/sumaryProduct`)
+    .then((res) => {
+      return res.data;
+    });
+  return list;
+};
+export const getTrans = async (data) => {
+  const list = await axios.get(`${BASE_URL}/admin/getTrans`).then((res) => {
+    return res.data;
+  });
+  return list;
+};
+export const updateProduct = async (data, navigate) => {
+  await axios
+    .post(`${BASE_URL}/admin/updateProduct`, data)
+    .then((res) => {
+      alert(res.data);
+      navigate("/admin/product");
+    })
+    .catch((error) =>
+      alert(error.response.data.precedingErrors[0].originalError.info.message)
+    );
+};
+export const deleteUsers = async (product_id) => {
+  axios.post(`${BASE_URL}/admin/deleteUsers`, { product_id });
+};
+export const deleteCustomer = async (customer_id) => {
+  axios.post(`${BASE_URL}/admin/deleteCustomer`, { customer_id });
+};
+export const updateUser = async (product_id) => {
+  //axios.post(`${BASE_URL}/admin/deleteUsers`, { product_id });
 };
 export const contact = async (data, navigate) => {
   // axios.post("http://localhost:8080/WEB/Vietfast/BE/index.php", data).then((res) => {

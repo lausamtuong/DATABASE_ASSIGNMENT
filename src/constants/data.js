@@ -8,8 +8,8 @@ const data = {
     },
     summary: [
         {
-            title: 'Customer Visited',
-            subtitle: 'Total Customer Visited',
+            title: 'Customer ',
+            subtitle: 'Total Customer',
             value: '3229',
             percent: 80
         },

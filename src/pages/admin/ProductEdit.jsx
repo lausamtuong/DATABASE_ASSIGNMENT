@@ -1,8 +1,7 @@
 import { Avatar, Button, Input } from "@nextui-org/react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import DashboardWrapper, {
-} from "../../components/dashboard-wrapper/DashboardWrapper";
+import DashboardWrapper from "../../components/dashboard-wrapper/DashboardWrapper";
 import "./useredit.scss";
 import avt from "../../images/member1.jpg";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
@@ -11,48 +10,49 @@ import { SiZcash } from "react-icons/si";
 import { BiMoney, BiCategoryAlt } from "react-icons/bi";
 import { AiOutlineHome } from "react-icons/ai";
 import { FaProductHunt } from "react-icons/fa";
-import { addProductChild } from "../../reduxToolkit/apiRequest";
-const ProductEditDetail = ({ product}) => {
+import { addProductChild, updateProduct } from "../../reduxToolkit/apiRequest";
+const ProductEditDetail = ({ product }) => {
   const navigate = useNavigate();
   const [file, setFile] = useState();
   const [fileName, setFileName] = useState("");
-  const [type,setType] = useState("");
+  const [type, setType] = useState("");
   const [data, setData] = useState({
+    product_id:product?.product_id,
     product_name: product?.product_name,
     manufacturer: product?.manufacturer,
     illustration: product?.illustration,
     entry_price: product?.entry_price,
     sell_price: product?.sell_price,
-    amount: product?.amount,
-    cart_id: product?.cart_id,
     category_id: product?.category_id,
     supplier_id: product?.supplier_id,
   });
   const [addData, setAddData] = useState({
-    product_id:product?.product_id,
-    color:'',
-    size:'',
-    shoe_type:'',
-    style:'',
-    amount:'',
-    shoe_elastic:'',
-    clothes_elastic:'',
-    type:"CLOTHES"
+    product_id: product?.product_id,
+    color: "",
+    size: "",
+    shoe_type: "",
+    style: "",
+    amount: "",
+    shoe_elastic: "",
+    clothes_elastic: "",
+    type: "CLOTHES",
   });
   const [selectedImage, setSelectedImage] = useState();
   const handleType = (e) => {
-    
-    setType(e.target.value)
-    setAddData((state)=>{return {...state,type:e.target.value}});
+    setType(e.target.value);
+    setAddData((state) => {
+      return { ...state, type: e.target.value };
+    });
   };
   const removeSelectedImage = () => {
     setSelectedImage();
   };
-  const saveFile = (e) => {
+  const saveFile = async(e) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImage(e.target.files[0]);
     }
     setFile(e.target.files[0]);
+    
     setFileName(e.target.files[0].name);
   };
   const convertBase64 = (file) => {
@@ -68,11 +68,15 @@ const ProductEditDetail = ({ product}) => {
     });
   };
   const sendData = async () => {
-   console.log(data)
+    if(file){
+      const base64 = await convertBase64(file);
+      const newData = {...data,illustration:base64}
+      updateProduct(newData,navigate)
+    }
+    else updateProduct(data,navigate)
   };
   const sendAddData = async () => {
-   console.log(addData)
-   addProductChild(addData)
+    addProductChild(addData);
   };
   return (
     <DashboardWrapper>
@@ -104,29 +108,34 @@ const ProductEditDetail = ({ product}) => {
             <div className="userShowLabel">Product Detail</div>
             <div className="userShowIcon">
               <FaProductHunt />
-              <span>Hãng sản xuất:<b>
-                {product?.manufacturer || "HANG SAN XUAT"}
-                </b> 
-                </span>
+              <span>
+                Hãng sản xuất:<b>{product?.manufacturer || "HANG SAN XUAT"}</b>
+              </span>
             </div>
             <div className="userShowIcon">
               <AiOutlineHome />
-              <span>Mã nhà cung cấp: <b>{product?.supplier_id || "MA NHA CUNG CAP"}</b></span>
+              <span>
+                Mã nhà cung cấp:{" "}
+                <b>{product?.supplier_id || "MA NHA CUNG CAP"}</b>
+              </span>
             </div>
             <div className="userShowIcon">
               <BiCategoryAlt />
-              <span>Mã danh mục: <b>
-                {product?.category_id || "MA DANH MUC"}
-                </b>
-                </span>
+              <span>
+                Mã danh mục: <b>{product?.category_id || "MA DANH MUC"}</b>
+              </span>
             </div>
             <div className="userShowIcon">
               <BiMoney />
-              <span>Giá Nhập: <b>{product?.entry_price || "GIA NHAP"}</b></span>
+              <span>
+                Giá Nhập: <b>{product?.entry_price || "GIA NHAP"}</b>
+              </span>
             </div>
             <div className="userShowIcon">
               <SiZcash />
-              <span>Giá bán: <b>{product?.sell_price || "GIA BAN"}</b></span>
+              <span>
+                Giá bán: <b>{product?.sell_price || "GIA BAN"}</b>
+              </span>
             </div>
           </div>
           <div className="userUpdate">
@@ -161,7 +170,7 @@ const ProductEditDetail = ({ product}) => {
                     });
                   }}
                 />
-                <Input
+                {/* <Input
                   size="md"
                   underlined
                   labelPlaceholder="Mã Nhà Cung Cấp"
@@ -174,22 +183,50 @@ const ProductEditDetail = ({ product}) => {
                       };
                     });
                   }}
-                />
-                <Input
-                  size="md"
-                  underlined
-                  labelPlaceholder="Mã Danh Mục"
-                  color="success"
-                  type="number"
+                /> */}
+                <label for="supplier_id" style={{ fontSize: "14px" }}>
+                  Nhà Cung cấp
+                </label>
+
+                <select
+                  id="supplier_id"
+                  name="supplier_id"
                   onChange={(e) => {
                     setData((state) => {
                       return {
                         ...state,
-                        category_id: e.target.value,
+                        supplier_id: e.target.value,
                       };
                     });
                   }}
-                />
+                >
+                  <option value="SUP0001  ">OUTERITY</option>
+                  <option value="SUP0002  ">CANIFA</option>
+                  <option value="SUP0003  ">DONY</option>
+                  <option value="SUP0004  ">COOL MATE</option>
+                  <option value="SUP0005  ">GUCCI</option>
+                </select>
+                <label for="category_id" style={{ fontSize: "14px" }}>
+                  Mã giỏ hàng
+                </label>
+
+                <select id="category_id" name="category_id"
+                 onChange={(e) => {
+                  setData((state) => {
+                    return {
+                      ...state,
+                      category_id: e.target.value,
+                    };
+                  });
+                }}
+                >
+                  <option value="CAT0001    ">TANKTOP</option>
+                  <option value="CAT0002    ">SHOE</option>
+                  <option value="CAT0003    ">PANT</option>
+                  <option value="CAT0004    ">POLO</option>
+                  <option value="CAT0005    ">WINTER</option>
+                  <option value="CAT0006    ">SHORT</option>
+                </select>
                 <Input
                   size="md"
                   underlined
@@ -278,7 +315,6 @@ const ProductEditDetail = ({ product}) => {
           </Button>
         </div>
         <div className="userEdit__container">
-          
           <div className="userUpdate">
             <div className="userUpdateTitle">INFOMATION</div>
             <form action="submit" className="userUpdateForm">
@@ -292,8 +328,8 @@ const ProductEditDetail = ({ product}) => {
                     setAddData((state) => {
                       return {
                         ...state,
-                       shoe_elastic: e.target.value,
-                       clothes_elastic: e.target.value,
+                        shoe_elastic: e.target.value,
+                        clothes_elastic: e.target.value,
                       };
                     });
                   }}
@@ -357,20 +393,14 @@ const ProductEditDetail = ({ product}) => {
                     });
                   }}
                 />
-                 <label for="manufacturer" style={{ fontSize: "14px" }}>
-                    Danh mục
-                  </label>
-                  <select
-                    id="manufacturer"
-                     value={type}
-                     onChange={handleType}
-                  >
-                    <option value="CLOTHES">CLOTHES</option>
-                    <option value="SHOE">SHOE</option>
-                  </select>
-               
+                <label for="manufacturer" style={{ fontSize: "14px" }}>
+                  Danh mục
+                </label>
+                <select id="manufacturer" value={type} onChange={handleType}>
+                  <option value="CLOTHES">CLOTHES</option>
+                  <option value="SHOE">SHOE</option>
+                </select>
               </div>
-              
             </form>
           </div>
         </div>

@@ -33,21 +33,65 @@ ChartJS.register(
 );
 import "./dashboard.scss";
 
-
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { Avatar } from "@nextui-org/react";
+import { getsumary, getsumaryMoney, getsumaryOrder, getsumaryProduct, getTrans } from "../../reduxToolkit/apiRequest";
+
+
 const Dashboard = () => {
   const [trans, setTrans] = useState([]);
-  useEffect(() => {
+
+  const [sumary, setSumary] = useState([
+    {
+      title: "Customer",
+      subtitle: "Total Customer",
+      value: "",
+      percent: 80,
+    },
+    {
+      title: "Orders",
+      subtitle: "Total orders ",
+      value: "",
+      percent: 49,
+    },
+    {
+      title: "Revenue",
+      subtitle: "Total revenue today",
+      value: "",
+      percent: 38,
+    },
+    {
+      title: "Product",
+      subtitle: "Total Product",
+      value: "",
+      percent: 100,
+    },
+  ]);
+  useEffect(async() => {
     window.scrollTo(0, 0);
-  }, []);
+    const customers = await getsumary()
+    const Order = await getsumaryOrder()
+    const Money = await getsumaryMoney()
+    const Product = await getsumaryProduct()
+    const x = await getTrans()
+    setTrans(x)
+    setSumary((state) =>
+      state.map((i) => {
+        if (i.title == "Customer") return { ...i, value: customers.TOTAL };
+        if (i.title == "Orders") return { ...i, value: Order.TOTAL };
+        if (i.title == "Revenue") return { ...i, value: Money.TOTAL  };
+        if (i.title == "Product") return { ...i, value: Product.TOTAL  };
+      return i;
+      })
+    );
+  }, [])
   return (
     <DashboardWrapper>
       <DashboardWrapperMain>
         <div className="row">
           <div className="col-8 col-md-12">
             <div className="row">
-              {data.summary.map((item, index) => (
+              {sumary.map((item, index) => (
                 <div
                   key={`summary-${index}`}
                   className="col-6 col-md-6 col-sm-12 mb"
@@ -69,12 +113,6 @@ const Dashboard = () => {
           </div>
         </div>
       </DashboardWrapperMain>
-      <DashboardWrapperRight>
-        <div className="title mb">Overall</div>
-        <div className="mb">
-          <OverallList />
-        </div>
-      </DashboardWrapperRight>
       <DashboardWrapperRight>
         <div className="title mb">Lastest Transactions</div>
         <div className="mb"></div>
@@ -147,6 +185,7 @@ const ButtonStatus = (props) => {
 };
 
 const UserTranscations = (props) => {
+
   return (
     <>
       <td className="widgetUser">
@@ -164,10 +203,10 @@ const UserTranscations = (props) => {
               : "error"
           }
         />
-        <span>{props.name}</span>
+        <span>{props.customer_id}</span>
       </td>
-      <td className="widgetDate">{props.date}</td>
-      <td className="widgetAmount">{props.amount}</td>
+      <td className="widgetDate">{props.payment_hour.slice(11,19)} /<i>{props.payment_date.slice(0,10)}</i>  </td>
+      <td className="widgetAmount">{props.total_money.toLocaleString()} VND</td>
       <td className="widgetStatus">
         <ButtonStatus type={props.status} />
       </td>
@@ -194,12 +233,12 @@ const ListUserTransactions = ({ array }) => {
       {array.map((item, index) => (
         <tr key={index}>
           <UserTranscations
-            img={item?.image?item.image:avt}
-            name={item.username}
-            date={item.time}
+            img={item?.image ? item.image : avt}
+            customer_id={item.customer_id}
+            payment_date={item.payment_date}
+            payment_hour={item.payment_hour}
             status="approved  "
-            
-            amount={item.amount}
+            total_money={item.total_money}
           />
         </tr>
       ))}

@@ -4,20 +4,32 @@ import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import { Avatar } from "@nextui-org/react";
 import { DataGridPro } from "@mui/x-data-grid-pro";
 import { GrAddCircle } from "react-icons/gr";
-import avt from "../../images/avt_default.png";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { Modal, Input, Grid, Button } from "@nextui-org/react";
 import ProductEditDetail from "./ProductEdit";
 import axios from "axios";
-import { addProduct } from "../../reduxToolkit/apiRequest";
+import { addProduct, deleteUsers } from "../../reduxToolkit/apiRequest";
 const Product = () => {
   const [product, setProduct] = useState(null);
   const navigate = useNavigate()
-  console.log(1)
+  const [rows, setRows] = useState([]);
+  const [state,setState] = useState(false)
+  useEffect(() => {
+    axios
+      .get("http://localhost:8090/admin/product", {
+        headers: {
+          "Access-Control-Allow-Headers": "Origin, Content-Type, Accept",
+          "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        },
+      })
+      .then((res) => {
+        setRows(res.data);
+      });
+  }, []);
   const ProductList = ({ setProduct }) => {
-    const [visible, setVisible] = React.useState(false);
-    const [valueManufacturer, setValueManufacturer] = React.useState("");
-    const handleAddProduct = async (e) => {
+  const [visible, setVisible] = React.useState(false);
+  const [valueManufacturer, setValueManufacturer] = React.useState("");
+  const handleAddProduct = async (e) => {
       e.preventDefault();
       addProduct({
         product_name:e.target.newProductName.value,
@@ -25,15 +37,12 @@ const Product = () => {
         entry_price:(e.target.newEntryPrice.value),
         sell_price:(e.target.newSellPrice.value),
         supplier_id:(e.target.supplier_id.value),
-         amount:e.target.amount.value,
-         size:1,
         category_id:(e.target.newCategory.value),
         illustration:(e.target.newIllustration.value)  
       },navigate)
      
      
     };
-
     const [valueCategory, setValueCategory] = React.useState("");
     const handleValueCategory = (e) => {
       setValueCategory(e.target.value);
@@ -91,9 +100,9 @@ const Product = () => {
         renderCell: (params) => {
           return (
             <div className="userItem">
-              {params.row.sell_price == ""
-                ? "undefined"
-                : Number(params.row.sell_price)}
+              {params.row.sell_price?.toLocaleString()
+                ? (params.row.sell_price?.toLocaleString()+" đ")
+                : ""}
             </div>
           );
         },
@@ -107,9 +116,9 @@ const Product = () => {
         renderCell: (params) => {
           return (
             <div className="userItem">
-              {params.row.entry_price == ""
-                ? "undefined"
-                : params.row.entry_price}
+              {params.row.entry_price?.toLocaleString()
+                ? (params.row.entry_price?.toLocaleString()+" đ")
+                : ""}
             </div>
           );
         },
@@ -226,7 +235,10 @@ const Product = () => {
               <DeleteOutlineIcon
                 className="userListDelete"
                 onClick={() => {
-                  // deleteUser(params.id);
+                
+                   deleteUsers(params.row.product_id);
+                   alert(`Xóa thành công ${params.row.product_name}`)
+                   setState(state=>!state)
                 }}
               />
             </>
@@ -249,20 +261,6 @@ const Product = () => {
         width: 70,
       },
     ];
-    const [rows, setRows] = useState([]);
-    useEffect(() => {
-      axios
-        .get("https://backend-dbms.onrender.com/admin/product", {
-          headers: {
-            "Access-Control-Allow-Headers": "Origin, Content-Type, Accept",
-            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-          },
-        })
-        .then((res) => {
-          setRows(res.data);
-        });
-    }, []);
-
     return (
       <div style={{ height: "80vh", width: "100%" }}>
         <DataGridPro
@@ -358,14 +356,14 @@ const Product = () => {
                   Nhà Cung cấp
                 </label>
                 <br />
-                <select id="manufacturer"  name="manufacturer_id" value={valueManufacturer}  onChange={handleValueManufacturer}>
+                <select id="supplier_id"  name="supplier_id" value={valueManufacturer}  onChange={handleValueManufacturer}>
                   <option value="SUP0001  ">OUTERITY</option>
                   <option value="SUP0002  ">CANIFA</option>
                   <option value="SUP0003  ">DONY</option>
                   <option value="SUP0004  ">COOL MATE</option>
                   <option value="SUP0005  ">GUCCI</option>
                 </select>
-                <label for="manufacturer" style={{ fontSize: "14px" }}>
+                <label for="supplier_id" style={{ fontSize: "14px" }}>
                   Danh mục
                 </label>
                 <br />
@@ -383,14 +381,7 @@ const Product = () => {
                   <option value="CAT0006    ">SHORT</option>
                 </select>
 
-                <input
-                 name="amount"
-                 placeholder="Số Lượng"
-                 color="default"
-                
-                 type="number"
-                 style={{width:"20%"}}
-               />
+               
                 <input
                   bordered
                   labelRight=".jpg"

@@ -5,7 +5,7 @@ import DashboardWrapper from "../../components/dashboard-wrapper/DashboardWrappe
 import "./useredit.scss";
 import avt from "../../images/avt_default.png";
 
-import { updateUser } from "../../reduxToolkit/apiRequest";
+import { updateCustomer, updateUser } from "../../reduxToolkit/apiRequest";
 import { useDispatch } from "react-redux";
 import { BsCalendarDate, BsFillPersonFill, BsCoin } from "react-icons/bs";
 import { FaBirthdayCake, FaAddressBook } from "react-icons/fa";
@@ -27,38 +27,34 @@ const UserEdit = (props) => {
   );
 };
 
-const UserEditDetail = ({ user, renderRow }) => {
-  const [age, setAge] = React.useState("");
-
-  const handleChange = (event) => {
-    console.log(event.target.value)
-    setAge(event.target.value);
+const UserEditDetail = ({ user }) => {
+  const [sex,setSex] = useState("")
+  console.log(user)
+  const handleChange = (e) => {
+    setSex(e.target.value)
+    setData((state) => {
+      return {
+        ...state,
+        sex: e.target.value,
+      };
+    });
   };
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+ 
   
   const [data, setData] = useState({
-    name: user?.username,
-    email: user?.email,
-    phone: user?.phone,
-    address: user?.address,
-    fullname: user?.fullname,
-    image: user?.image,
-    action: "getUserUpdate",
-    email_origin: user?.email,
+    customer_id: user?.customer_id,
+    register_date : user?.register_date,
+    f_name : user?.f_name,
+    l_name : user?.l_name,
+    sex : user?.sex,
+    bdate : user?.bdate,
+    _address : user?._address,
   });
   const sendData = async () => {
-    if (!file) {
-     // const newData = { ...data, image: user.image };
-      updateUser(newData, dispatch);
-      navigate("/admin/customers");
-    } else {
-      //const newData = { ...data, image: base64 };
-      updateUser(newData, dispatch);
-      navigate("/admin/customers");
-    }
-    renderRow();
+   updateCustomer(data,navigate)
+
   };
   return (
     <DashboardWrapper>
@@ -80,34 +76,34 @@ const UserEditDetail = ({ user, renderRow }) => {
               color="success"
             />
             <div className="userShowTopTitle">
-              <p className="name">{user?.username || "HO VA TEN"}</p>
-              <span className="email">{user?.email || "ID"}</span>
+              <p className="name">{user?.f_name +" "  + user.l_name || "HO VA TEN"}</p>
+              <span className="email">{user?.customer_id || "ID"}</span>
             </div>
           </div>
           <div className="userShowLabel">Account Detail</div>
           <div className="userShowIcon">
             <BsCalendarDate />
-            <span>{user?.fullname || "NGAY DANG KI"}</span>
+            <span>Ngày đăng kí: {user?.register_date.slice(0,10) || "NGAY DANG KI"}</span>
           </div>
           <div className="userShowIcon">
             <BsFillPersonFill />
-            <span>{user?.phone || "GIOI TINH"}</span>
+            <span>Giới tính: {user?.sex || "GIOI TINH"}</span>
           </div>
           <div className="userShowIcon">
             <FaBirthdayCake />
-            <span>{false || "NGAY SINH"}</span>
+            <span>Ngày sinh: {user.bdate.slice(0,10) || "NGAY SINH"}</span>
           </div>
           <div className="userShowIcon">
             <BsCoin />
-            <span>{false || "DIEM TICH LUY"}</span>
+            <span>Điểm tích lũy: {user.accumulate_point || "DIEM TICH LUY"}</span>
           </div>
           <div className="userShowIcon">
             <CgMoveUp />
-            <span>{false || "CAP DO"}</span>
+            <span>Cấp độ: {user._level || "CAP DO"}</span>
           </div>
           <div className="userShowIcon">
             <FaAddressBook />
-            <span>{false || "DIA CHI"}</span>
+            <span>Địa chỉ: {user._address || "DIA CHI"}</span>
           </div>
         </div>
         <div className="userUpdate">
@@ -123,7 +119,7 @@ const UserEditDetail = ({ user, renderRow }) => {
                   setData((state) => {
                     return {
                       ...state,
-                      fullname: e.target.value,
+                      f_name: e.target.value,
                     };
                   });
                 }}
@@ -137,13 +133,13 @@ const UserEditDetail = ({ user, renderRow }) => {
                   setData((state) => {
                     return {
                       ...state,
-                      phone: e.target.value,
+                      l_name: e.target.value,
                     };
                   });
                 }}
               />
               <Select
-                value={age}
+                value={sex}
                 onChange={handleChange}
                 displayEmpty
                 inputProps={{ "aria-label": "Without label" }}
@@ -158,14 +154,29 @@ const UserEditDetail = ({ user, renderRow }) => {
               <Input
                 size="md"
                 underlined
-               
+                label="Ngày Sinh"
                 type='date'
                 color="success"
                 onChange={(e) => {
                   setData((state) => {
                     return {
                       ...state,
-                      address: e.target.value,
+                      bdate: e.target.value,
+                    };
+                  });
+                }}
+              />
+              <Input
+                size="md"
+                underlined
+                label="Ngày Đăng kí"
+                type='date'
+                color="success"
+                onChange={(e) => {
+                  setData((state) => {
+                    return {
+                      ...state,
+                      register_date: e.target.value,
                     };
                   });
                 }}
@@ -179,7 +190,7 @@ const UserEditDetail = ({ user, renderRow }) => {
                   setData((state) => {
                     return {
                       ...state,
-                      address: e.target.value,
+                      _address: e.target.value,
                     };
                   });
                 }}
