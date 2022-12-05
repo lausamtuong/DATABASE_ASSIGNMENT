@@ -22,6 +22,7 @@ const Product = () => {
   useEffect(async () => {
     setLoading(true);
     const temp = await getAllProduct();
+    console.log(temp)
     setList(temp);
     setLoading(false);
     window.scrollTo(0, 0);

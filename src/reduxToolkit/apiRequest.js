@@ -21,32 +21,34 @@ export const loginUser = async (user, dispatch, navigate) => {
   const users = await axios
     .post(`${BASE_URL}/login`, { data: user })
     .then((res) => {
-      if (res.data == "false") {
+      console.log(res.data)
+      if (!res.data?.user ) {
         dispatch(loginFalse());
         const target = document.querySelector(".overlayz");
         setTimeout(() => {
           target.classList.toggle("none");
         }, 3000);
       } else {
-        window.localStorage.setItem("user", JSON.stringify(res.data));
-        const user = JSON?.parse(window.localStorage.getItem("user"));
 
-        if (res.data.type_account == "Tài khoản khách hàng") {
+        window.localStorage.setItem("user", JSON.stringify(res.data.user));
+        window.localStorage.setItem("cart_id", JSON.stringify(res.data.cart_id));
+        
+        if (res.data.user.type_account == "Tài khoản khách hàng") {
           setTimeout(() => {
-            dispatch(loginSuccess(res.data));
+            dispatch(loginSuccess(user));
             navigate("/");
           }, 3000);
           return;
         }
         if (
-          res.data.type_account == "Tài khoản nhân viên" ||
-          user.isAdmin == "true"
+          res.data.user.type_account == "Tài khoản nhân viên" 
         ) {
           setTimeout(() => {
-            dispatch(loginSuccess(res.data));
+            dispatch(loginSuccess(user));
           }, 3000);
           navigate("/admin");
         }
+        else alert("sai")
       }
     });
   return users;
@@ -232,7 +234,6 @@ export const addToCart = async (customer_id, item) => {
   }
 };
 export const updateCartProduct = async (
-  order_id,
   product_id,
   cart_id,
   amount
@@ -240,7 +241,6 @@ export const updateCartProduct = async (
   try {
     axios
       .post(`${BASE_URL}/updateCartProduct`, {
-        order_id,
         product_id,
         cart_id,
         amount,
@@ -278,7 +278,7 @@ export const insertOrder = async (customer_id) => {
 export const insertProductOrder = async (order_id, cart) => {
   try {
     console.log(123);
-    axios.post(`${BASE_URL}/insertProductOrder`, { order_id, cart });
+    axios.post(`${BASE_URL}/insertProductOrder`, { order_id, cart }).catch(error=>console.log(error));
   } catch (error) {
     console.log(error);
   }
@@ -287,15 +287,17 @@ export const registerUser = async (user, dispatch, navigate) => {
   dispatch(registerStart());
   try {
     axios.post(`${BASE_URL}/register`, user).then((res) => {
-      if (res.data == "AccountExist") {
+      if (res.data == "Lỗi: Mật khẩu chứa ít nhất 1 kí tự đặc biệt: @/$/&") {
         const target = document.querySelector(".overlayz");
         target.classList.toggle("none");
+     
       } else {
+       
         alert("Đăng kí thành công");
         dispatch(registerSuccess());
         navigate("/login");
       }
-    });
+    }).catch(error=>alert(error.response.data));
   } catch (error) {
     dispatch(registerFalse());
   }
@@ -355,6 +357,12 @@ export const updateProduct = async (data, navigate) => {
     .catch((error) =>
       alert(error.response.data.precedingErrors[0].originalError.info.message)
     );
+};
+
+
+export const getAmountChild = async (product_id,size) => {
+  const data = await axios.post(`${BASE_URL}/getAmountChild`, { product_id,size}).then(res=>{return res.data})
+  return data[0][0].Total
 };
 export const deleteUsers = async (product_id) => {
   axios.post(`${BASE_URL}/admin/deleteUsers`, { product_id });

@@ -53,6 +53,7 @@ const NavItems = [
 ];
 const Header = () => {
   const user = JSON?.parse(window.localStorage.getItem("user"));
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [name, setName] = useState("Tài Khoản");

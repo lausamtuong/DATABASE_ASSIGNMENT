@@ -1,15 +1,20 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   addToCart,
   deleteCartProduct,
+  getAmountChild,
   updateCartProduct,
 } from "../../reduxToolkit/apiRequest";
 
 const CardDetail = ({ props, setState, confirmOrder }) => {
   const [soLuong, setSoLuong] = useState(props.amount);
-  let order_id = JSON?.parse(window.localStorage.getItem("order_id"));
-  order_id = order_id?.order_id;
+ 
+  const [amount, setAmount] = useState();
   const [size, setSize] = useState("S");
+  useEffect(async () => {
+    const x = await getAmountChild(props.product_id,size)
+    setAmount(x)
+  }, [size]);
   return (
     <div className="" data-v-42acd70a>
       <div data-v-42acd70a="" class="cart-items">
@@ -61,7 +66,7 @@ const CardDetail = ({ props, setState, confirmOrder }) => {
                 >
                   {props.product_name}
                 </a>{" "}
-                <div class="cart-item__variant"><i>SIZE:</i> <b>{size}</b></div>{" "}
+                <div class="cart-item__variant"><i>Số lượng còn:</i> <b>{amount}</b></div>{" "}
               </div>{" "}
               <div class="cart-item__actions">
                 <div>
@@ -107,7 +112,7 @@ const CardDetail = ({ props, setState, confirmOrder }) => {
                           setSoLuong((prev) => prev - 1);
                           setState((prev) => !prev);
                           updateCartProduct(
-                            order_id,
+                           
                             props.product_id,
                             props.cart_id,
                             soLuong - 1
@@ -141,10 +146,10 @@ const CardDetail = ({ props, setState, confirmOrder }) => {
                         class="quantity-box__increase"
                         style={{ cursor: "pointer" }}
                         onClick={() => {
+                          if(soLuong<amount)
                           setSoLuong((prev) => prev + 1);
                           setState((prev) => !prev);
                           updateCartProduct(
-                            order_id,
                             props.product_id,
                             props.cart_id,
                             soLuong + 1

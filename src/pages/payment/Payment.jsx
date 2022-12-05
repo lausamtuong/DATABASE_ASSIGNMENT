@@ -20,9 +20,9 @@ const override = css`
 `;
 const Payment = () => {
   let user = JSON?.parse(window.localStorage.getItem("user"));
-   let order_id ;
-   if(window.localStorage.getItem("order_id")!=undefined)
-      order_id = JSON?.parse(window.localStorage.getItem("order_id"));
+  const [order_id, setOrder_id] = useState();
+  //  if(window.localStorage.getItem("order_id")!=undefined)
+  //     order_id = JSON?.parse(window.localStorage.getItem("order_id"));
   let confirm = JSON?.parse(window.localStorage.getItem("confirm"));
   const [cart, setCart] = useState([]);
   const [state, setState] = useState(false);
@@ -30,7 +30,13 @@ const Payment = () => {
   const [indexActive, setIndexActive] = useState(null);
   const [active, setActive] = useState([0, 0, 0, 0, 0, 0]);
   const [confirmOrder, setConfirmOrder] = useState(confirm);
-  const [giamGia, setGiamGia] = useState(0);
+  const [giamGia, setGiamGia] = useState({
+    percent: 0,
+    min: 0,
+    max: 0,
+    start_date: "",
+    end_date: "",
+  });
   let [loading, setLoading] = useState(false);
   const [totalOrder, setTotalOrder] = useState("");
   const [sender, setSender] = useState({
@@ -38,53 +44,55 @@ const Payment = () => {
     phoneNumber: "",
     address: "",
     email: "",
-    customer_id:"",
-    order_id:"",
+    customer_id: "",
+    order_id: "",
     payment_note: "",
     payment_method: "",
-    promotion_id:"",
-    total_money:""
+    promotion_id: "",
+    total_money: "",
   });
 
   useEffect(async () => {
     const cart_id = await getCart(user?.customer_id);
     const listCart = await getProductCart(cart_id[0][0]?.cart_id);
     const list = await getAllPromotions();
+
     setListPromotions(list);
     setCart(listCart);
   }, [state]);
+
   const handleConfirm = async () => {
     setConfirmOrder(true);
-    if (!order_id) {
-      order_id = await insertOrder(user?.customer_id);
-      window.localStorage.setItem("order_id", JSON.stringify(order_id));
-    }
+    const y = await insertOrder(user?.customer_id);
+    console.log(y);
+    setOrder_id(y);
+    window.localStorage.setItem("order_id", JSON.stringify(y));
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
       alert("Thành công!");
     }, 5000);
     setSender((state) => {
-      return { 
+      return {
         ...state,
-         order_id:order_id.order_id,
-         customer_id:user.customer_id
-       };
+        order_id: y.order_id,
+        customer_id: user.customer_id,
+      };
     });
 
-    const x = await insertProductOrder(order_id, cart);
+    const x = await insertProductOrder(y, cart);
     let current = 0;
     let timerId = setInterval(async function () {
       if (current == 10) {
         clearInterval(timerId);
       }
-      const temp = await getTotalMoneyOrder(order_id);
+      const temp = await getTotalMoneyOrder(y);
       setTotalOrder(temp);
       setSender((state) => {
-        return { 
+        return {
           ...state,
-           total_money:totalOrder-giamGia,
-         };
+          total_money: totalOrder - giamGia,
+        };
       });
       current++;
     }, 500);
@@ -92,9 +100,8 @@ const Payment = () => {
   };
   useEffect(async () => {
     window.scrollTo(0, 0);
-    const temp = await getTotalMoneyOrder(order_id);
-    setTotalOrder(temp);
   }, []);
+
   return (
     <>
       {loading && (
@@ -472,12 +479,14 @@ const Payment = () => {
             {!confirmOrder ? (
               ""
             ) : (
-              <div class="cart-section"  onClick={()=>{
-                window.localStorage.removeItem("order_id","confirm")
-                payment(sender)}}>
-                <button class="checkout-btn mb">
-                  Thanh toán 
-                </button>
+              <div
+                class="cart-section"
+                onClick={() => {
+                  window.localStorage.removeItem("order_id", "confirm");
+                  payment(sender);
+                }}
+              >
+                <button class="checkout-btn mb">Thanh toán</button>
               </div>
             )}
           </div>
@@ -487,7 +496,12 @@ const Payment = () => {
             <h2 className="">Giỏ hàng</h2>
             <div>
               {cart?.map((cartItem, index) => (
-                <CardDetail key={index} props={cartItem} setState={setState} confirmOrder={confirmOrder}/>
+                <CardDetail
+                  key={index}
+                  props={cartItem}
+                  setState={setState}
+                  confirmOrder={confirmOrder}
+                />
               ))}
             </div>
             {!confirmOrder ? (
@@ -502,12 +516,16 @@ const Payment = () => {
                 </p>
                 <button
                   className="btn mb "
-                  style={{ margin: "20px 20px", padding: "10px 0px",width: "100%" }}
+                  style={{
+                    margin: "20px 20px",
+                    padding: "10px 0px",
+                    width: "100%",
+                  }}
                   onClick={handleConfirm}
                 >
                   Xác nhận
                 </button>
-                <div style={{height:"20px"}}></div>
+                <div style={{ height: "20px" }}></div>
               </>
             ) : (
               <>
@@ -524,16 +542,30 @@ const Payment = () => {
                               index == indexActive ? "active" : ""
                             }`}
                             onClick={() => {
-                              
-                              setGiamGia(
-                                (promotion.promotion_percent * totalOrder) / 100
-                              );
-                              setIndexActive(index);
+                              if (
+                                Number(totalOrder) < Number(promotion.min_money)
+                              )
+                                alert(
+                                  `Đơn hàng phải tối thiểu ${promotion.min_money.toLocaleString()} vnđ để áp dụng khuyến mãi`
+                                );
+                              else {
+                                setGiamGia((state) => {
+                                  return {
+                                    ...state,
+                                    percent: promotion.promotion_percent / 100,
+                                    max: promotion.max_money,
+                                    min: promotion.min_money,
+                                    start_date: promotion._start_date,
+                                    end_date: promotion._end_date,
+                                  };
+                                });
+                                setIndexActive(index);
+                              }
                               setSender((state) => {
-                                return { 
+                                return {
                                   ...state,
-                                  promotion_id:promotion.promotion_id
-                                 };
+                                  promotion_id: promotion.promotion_id,
+                                };
                               });
                             }}
                           >
@@ -562,14 +594,16 @@ const Payment = () => {
                                 <b
                                   style={{ color: "black", fontWeight: "bold" }}
                                 >
-                                  {promotion?.min_money || "xxx"}
+                                  {promotion?.min_money.toLocaleString() ||
+                                    "xxx"}
                                 </b>{" "}
-                                tối đa{" "}
+                                ,Giảm tối đa{" "}
                                 <b
                                   style={{ color: "black", fontWeight: "bold" }}
                                 >
                                   {" "}
-                                  {promotion?.max_money || "XXX"}{" "}
+                                  {promotion?.max_money.toLocaleString() ||
+                                    "XXX"}{" "}
                                 </b>
                                 (không áp dụng cùng chương trình ưu đãi khác)
                               </div>
@@ -604,6 +638,7 @@ const Payment = () => {
                     <p
                       data-v-e58f269a=""
                       onClick={async () => {
+                        console.log(1);
                         const temp = await getTotalMoneyOrder(order_id);
                         setTotalOrder(temp);
                       }}
@@ -624,7 +659,11 @@ const Payment = () => {
                     <p data-v-e58f269a="">Giảm giá</p>{" "}
                     <p data-v-e58f269a="" class="">
                       <span data-v-e58f269a="">
-                        {giamGia.toLocaleString()} vnđ
+                        {Number(giamGia.percent) * Number(totalOrder) >
+                        giamGia.max
+                          ? Number(giamGia.max).toLocaleString()
+                          : (Number(giamGia.percent) * Number(totalOrder)).toLocaleString()}{" "}
+                        vnđ
                       </span>{" "}
                     </p>
                   </div>{" "}
@@ -645,7 +684,11 @@ const Payment = () => {
                   >
                     <p data-v-e58f269a="">Tổng</p>{" "}
                     <p data-v-e58f269a="" class="">
-                      <span data-v-e58f269a="">{(totalOrder-giamGia).toLocaleString()} vnđ</span>{" "}
+                      <span data-v-e58f269a="">
+                        {
+                        Number(giamGia.percent) * Number(totalOrder) >giamGia.max?(totalOrder-giamGia.max):
+                        ((totalOrder -  (Number(giamGia.percent) * Number(totalOrder))).toLocaleString())} vnđ
+                      </span>{" "}
                       <span
                         data-v-e58f269a=""
                         style={{
@@ -654,7 +697,7 @@ const Payment = () => {
                           fontSize: "12px",
                         }}
                       >
-                        (Đã giảm {giamGia/totalOrder*100}% trên giá gốc)
+                        (Đã giảm {(giamGia.percent) * 100}% trên giá gốc)
                       </span>
                     </p>
                   </div>
@@ -664,12 +707,13 @@ const Payment = () => {
                       margin: "20px 20px",
                       padding: "10px 0px",
                       marginBottom: "20px !important",
-                      width: "100%"
+                      width: "100%",
                     }}
                     onClick={() => {
+                      console.log(order_id);
                       setConfirmOrder((prev) => !prev);
-                      deleteOrderProduct(order_id, cart);
-                      window.localStorage.removeItem("confirm")
+                      deleteOrderProduct(order_id.order_id, cart);
+                      window.localStorage.removeItem("confirm");
                     }}
                   >
                     Hủy

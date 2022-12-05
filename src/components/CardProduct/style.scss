@@ -207,6 +207,7 @@ input {
   font-size: 16px;
   font-weight: 600;
   gap: 20px;
+  align-items: center;
 }
 del {
   color: rgb(190, 190, 190);
@@ -218,30 +219,6 @@ ins {
   line-height: 42px;
 }
 
-// @media only screen and (max-width: 1440px) {
-//   .grid__column {
-//     width: 22% ;
-//   }
-// }
-// @media only screen and (max-width: 390px)   and (min-width: 120px) {
-//   .grid__column {
-//     width: 60%  ;
-//   }
-//   .block{
-//    display:none !important
-//   }
-// }
-// @media only screen and (max-width: 660px) and (min-width:390px) {
-//   .grid__column {
-//     width: 40% ;
-//   }
-//   .block{
-//     display:none !important
-//    }
-// }
-// @media only screen and (max-width: 990px) and (min-width: 660px){
-//   .grid__column {
-//     width: 30% ;
-//   }
-// }
-
+.block{
+  width: 100%;
+}
