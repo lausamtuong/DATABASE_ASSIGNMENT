@@ -13,7 +13,7 @@ import {
 } from "./authSlice";
 
 //const BASE_URL= "https://backend-dbms.onrender.com"
-const BASE_URL = "http://localhost:8090";
+const BASE_URL = "https://backend-dbms.onrender.com";
 import axios from "axios";
 export const loginUser = async (user, dispatch, navigate) => {
   dispatch(loginStart());
@@ -22,7 +22,7 @@ export const loginUser = async (user, dispatch, navigate) => {
     .post(`${BASE_URL}/login`, { data: user })
     .then((res) => {
       console.log(res.data)
-      if (!res.data?.user ) {
+      if (!res.data?.length ) {
         dispatch(loginFalse());
         const target = document.querySelector(".overlayz");
         setTimeout(() => {
@@ -30,10 +30,10 @@ export const loginUser = async (user, dispatch, navigate) => {
         }, 3000);
       } else {
 
-        window.localStorage.setItem("user", JSON.stringify(res.data.user));
+        window.localStorage.setItem("user", JSON.stringify(res.data[0]));
         window.localStorage.setItem("cart_id", JSON.stringify(res.data.cart_id));
         
-        if (res.data.user.type_account == "Tài khoản khách hàng") {
+        if (res.data[0].type_account == "Customer") {
           setTimeout(() => {
             dispatch(loginSuccess(user));
             navigate("/");
@@ -41,7 +41,7 @@ export const loginUser = async (user, dispatch, navigate) => {
           return;
         }
         if (
-          res.data.user.type_account == "Tài khoản nhân viên" 
+          res.data[0].type_account == "Clerk" 
         ) {
           setTimeout(() => {
             dispatch(loginSuccess(user));

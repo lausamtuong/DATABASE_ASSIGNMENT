@@ -43,7 +43,7 @@ const Register = () => {
         name: values.name,
         password: values.password,
         username: values.username,
-        type: isclek?"Tài khoản nhân viên":"Tài khoản khách hàng",
+        type: isclek?"Clerk":"Customer",
         id_clek:isclek?"ACC"+uuidv4().toString().replaceAll("-",'').slice(0,5):"",
       };
      console.log(newUser)

@@ -575,7 +575,7 @@ const Detail = () => {
           </div>
         </section>
 
-        <section className="product-single__description">.container</section>
+  
       </div>
     </>
   );

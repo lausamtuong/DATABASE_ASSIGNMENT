@@ -5,10 +5,8 @@ import "./product-list.scss";
 import CardProduct from "../CardProduct/CardProduct";
 
 const ProductList = ({ list }) => {
-
   const parentStyle = {
     width: "100%",
-
     flexWrap: "wrap",
     display: "flex",
     justifyContent: "center",
@@ -19,7 +17,8 @@ const ProductList = ({ list }) => {
     hasMore: true,
   });
   const fetchMoreData = () => {
-    if (scroll.items.length >= list[0].length) {
+    console.log(list.length)
+    if (scroll.items.length >= list.length) {
       setScroll((state) => {
         return { ...state, hasMore: false };
       });
@@ -75,8 +74,8 @@ const ProductList = ({ list }) => {
           {list.length &&
             scroll.items.map((i, index) => (
               <div className="childStyle">
-                {index < list[0].length && (
-                  <CardProduct key={i} item={list[0][index]} />
+                {index < list.length && (
+                  <CardProduct key={i} item={list[index]} />
                 )}
               </div>
             ))}
